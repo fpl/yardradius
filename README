@@ -1,0 +1,101 @@
+Yet Another Radius Daemon (YardRadius)
+
+1. Introduction
+---------------
+
+This program is a RADIUS RFC-compliant daemon, which is derived from
+original Livingston Enterprise Inc. (now Lucent Inc.) RADIUS daemon 
+release 2.1. It adds a number of useful features to the LE daemon, i.e.
+
+	Control of simultaneous logins.
+	Support of Ascend, Cisco and USR boxes.
+	Extended daily/monthly/yearly accouting information on a per-user basis.
+	MD5 encrypted passwords support (both in passwd file and/or users file).
+	Expirations in shadow file.
+	Checking based on time-of-day, traffic and connection time.
+	Support of PAM authentication and accounting.
+	Binary form of accounting file.
+	GDBM formats for users and user stats databases.
+	Autoconfiguring capabilities of sources. 
+	Support for Ascend binary data filters (aka abinary attributes).
+
+It supports also all features of Lucent daemon, i.e.:
+
+	Proxy RADIUS
+	ActivCard and iPass Support (not tested by me)
+	Accounting Signatures Now Required
+	Vendor	Specific Attributes
+	Virtual Ports
+	Alternate Password File
+	Address Binding
+	Improved Messages
+	Enhanced Debugging
+
+All sources are much cleaner than the original versions, and
+require an ANSI C compiler. A lots of potential buffer overflows have
+been corrected by means of massive use of snprintf() and buffer
+size checking.
+
+Directory contents are:
+
+BUGS			Some notes about possible bugs and how you can 
+			submit bug reports.
+README			This file.
+ROAMAP			The development roadmap and todo list.
+README.LUCENT   	The original Lucent README file.
+ChangeLog*		Brief description of changes to the sources.
+CREDITS			File of credits.
+INSTALL			Description of the installation procedure.
+LICENSE			License of agreement file for YARD RADIUS.
+LICENSE.LUCENT		Original License of agreement file from Lucent.
+GPG-KEY			My public key generated with GnuPG.
+configure		Autoconfiguring script.
+
+	
+aclocal.m4		A few files used by GNU autoconf/automake
+config.h.in
+configure
+configure.ac
+Makefile.am
+Makefile.in
+stamp-h.in
+VERSION			Contains the release number.
+
+src/			Sources of YARD RADIUS programs.
+doc/			Documentation of RADIUS protocol and YARD RADIUS (not
+			complete).
+pam/			Example of a PAM module for accounting.
+conf/			Example of YARD RADIUS database and other stuff.
+logs/			For installing.
+include/		C Header files of the programs. 
+man/			Man pages of all programs and extensions.
+autotools/		Contains internal scripts of autotools.
+scripts/		Yardradius configuration scripts.
+
+All software  is under  a BSD-like  license. See  LICENSE file  for more
+information. This  is also  the original license  of Lucent  Inc. Please
+consult the  INSTALL file and man  pages to get basic  information about
+how you can build and use YardRadius.
+
+2. References
+-------------
+
+YardRadius Wiki: http://yardradius.org
+YardRadius Project at SF: https://sourceforge.net/projects/yardradius/
+Mailing list: yardradius-users@lists.sourceforge.net
+
+YardRadius is also currently included  in Debian GNU/Linux since version
+3.0 (woody).  I'm also currently  the Debian Maintainer of  that package
+(and many others as well). The Debian packages are available at
+
+http://packages.debian.org/cgi-bin/search_packages.pl?keywords=yardradius&searchon=names&subword=1&version=all&release=all
+
+As far as I know, these are the only binary packages available, you generally needs
+to compile it from scratch.
+
+3. Development Roadmap
+----------------------
+
+Read the ROADMAP file in order to know what is the status of development and 
+what versions are available. You are invited to participate to the development
+process by submitting patches and bug reports.

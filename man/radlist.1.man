@@ -1,0 +1,152 @@
+.\" Copyright (c) 2004 Francesco Paolo Lovergine <frankie@debian.org>
+.\" See copyright section for conditions of redistribution
+.\" $Id: radlist.1.man 83 2004-08-28 13:32:47Z flovergine $
+.\"
+.TH RADLIST 1 "Aug 25, 2004" "1.1" "Yard Radius Manual"
+.SH NAME
+radlist \- lists current on-line users and per user stats
+.SH SYNOPSIS
+.BR radlist " [ "
+.BR "\-bhnstx" " ] ["
+.BR "\-D|M|Y " "] [" 
+.B "\-F "
+.IR format_string " ] ["
+.B "\-d "
+.IR day " ] ["
+.B "\-m "
+.IR month " ] ["
+.B "\-y "
+.IR year " ] ["
+.B "\-u "
+.IR user " ] ["
+.B "\-y "
+.IR year " ]"
+
+.SH DESCRIPTION
+This program gives detailed statistics for current users on line (which
+is the default) or any user you like.
+Its statistics are on a per-day/month/year base and can be used to
+produced useful reports.
+It shows on-line time and traffic,
+along with numbers of logins and current port usage.
+Its output can be largerly customized as you prefer with a
+suitable format string. See FORMATS section below.
+
+.SH OPTIONS
+.TP
+.B \-b
+Uses a brief output format. 
+.TP
+.B \-t
+Uses a `traditional' tabular output format.
+.TP
+.BR \-n
+Skips the header when `-t' option is used.
+.TP
+.B \-h
+Prints out usage of the command.
+.TP
+.BR "\-F \-H" format_string
+Define customized formats for output rows and the header. 
+See FORMATS section below.
+.TP
+.BR "\-m " month
+Reports statistics for month 
+.I month
+where month is in the range 1-12.
+.TP
+.BR "\-y " year
+Reports statistics for year
+.I year
+that is a four digits number.
+.TP
+.B \-x
+Shows extedend information (port information).
+.TP
+.B "\- u" user
+Gets a single username database entry, i.e. select a specific username 
+to report statistics for that user only.
+.TP
+.B "\-M \-D \-Y"
+Reports statistics on a dayly/monthly/yearly basis. They should be used
+along with d,m,y options. If not specified current date and 
+.B \-M 
+is considered.
+.P
+.SH FORMATS
+.B radlist
+does allow the user to  have a customized output format with the `-F' 
+command line option (see above). The program accepts and outputs any
+character in a format string and parse it to find some %-prefixed
+one-letter tokens. Those `a la' printf tokens are substituted with
+corresponding entry values.
+Normal C substitution are performed for \\\\,\\t,\\n,\\r and \\%.
+The list of legal % tokens follows, any oher combination is parsed 
+and ignored.
+
+.TS
+l l.
+Token	Value
+_
+%l	Username
+%s	Number of current sessions
+%n	Total number of sessions in the period specified
+%t	Total online time in secs
+%T	Total online time in HH:MM:SS format
+%i	Total input traffic in bytes
+%I	Total input traffic in KBytes
+%o	Total output traffic in bytes
+%O	Total output traffic in KBytes
+%m	Total traffic in bytes
+%M	Total traffic in KBytes
+%k	Mean online time per session in secs
+%K	Mean online time per session in HH:MM:SS format
+%g	Mean traffic per session in bytes
+%G	Mean traffic per session in KBytes
+%%	literal '%'
+.TE
+
+No alignment decimal values are allowed in this version of format strings. 
+
+.SH FILES
+.TP
+.I "PREFIX/logs/YEAR/user-stats"
+These are files which constitutes the yearly radlist database. They are in 
+binary GDBM format and collect statistics on a per user base, day by day.
+.TP
+.I "PREFIX/logs/NAS/YEAR/detail-XX"
+These text files stores accounting information for every access server
+(NAS) listed in the 
+.I clients
+file. Each user session is identified by a unique session-id and these
+accounting files store start/stop records for every single authenticated
+session. Information stored in those records, but for a group of standard
+ones, strictly depend on the NAS model and operating system. 
+
+.SH BUGS
+The 
+.BR "-x " option
+apparently is not working.
+.SH "SEE ALSO"
+.BR radiusd (8),
+.BR radlast (1)
+.BR builddbm (8),
+.BR radtest (1),
+.BR radwatch (1),
+.BR radius_attributes (5)
+
+.SH AUTHOR
+Francesco Paolo Lovergine <francesco@yardradius.org>.
+.P
+A complete list of contributors is contained in CREDITS file. 
+You should get that file among other ones within your distribution 
+and possibly installed under
+.BR "PREFIX/docs " directory
+.SH COPYRIGHT
+Copyright (C) 1997 Cristian Gafton. All rights reserved.
+.P
+Copyright (C) 1999-2004 Francesco Paolo Lovergine. All rights reserved.
+.P
+See the LICENSE file enclosed within this software for conditions of 
+use and distribution. This is a pure 
+.B "ISO BSD Open Source License" .

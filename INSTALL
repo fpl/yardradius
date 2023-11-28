@@ -1,0 +1,208 @@
+[ $Id: INSTALL 83 2004-08-28 13:32:47Z flovergine $ ]
+
+Installation instructions for Yet Another Radius Daemon (YARD RADIUS) 
+=====================================================================
+
+For the impatient, here is a short list of instructions to build YARD RADIUS
+daemon and intall it under many platforms. In this text, it will be
+named YARD for brief, but its official name is YARD RADIUS.
+
+1. REQUIREMENTS:
+
+	An ANSI C compiler (such as GNU cc).
+	A make program (strongly suggested GNU make)
+	The GDBM library (see http://www.gnu.org) 
+	The GNU zip program, to unpack the distribution file.
+	Other (optional) libraries for additional functionalities.
+
+2. SUPPORTED PLATFORMS:
+
+	YARD is known to compile and run on at least the following
+	platforms
+
+		Solaris (SPARC 2.5.1+)
+		FreeBSD (4.0+)
+		Linux (Debian all archs, RedHat)
+		Compaq True64 (4.0+) - formerly DEC Unix and OSF/1
+		AIX (4.0+)
+		Cygwin 1.x
+	
+	All these platforms have been tested by me or others at 
+	the time of this file. Moreover the daemon has been tested 
+	with the following NASes:
+
+		Ascend MAX 4030 (*)
+		Livingston PM3 (*)
+		3COM Total Control (formerly USRobotics Total Control)
+		Cisco AS
+		Redback
+		SpringTide
+		Nortel (formerly Bay Networks Annex)
+		Xedia, AP series routers
+		Ericsson (based on Tigris Dialup Server)
+	
+	An asterisk(*) denotes a platform I used directly for testing.
+	The other NASes have been used by other system administrators
+	which kindly informed me of this.
+	If you wish to donate access to a different NAS and/or give 
+	availability of its documentation, please e-mail me at one of the
+	email suggested in CREDITS file. Access to NASes should be granted 
+	for a limited time of period only, of course. The same, if possible 
+	for new unix platforms.
+
+3. QUICK INSTALLATION:
+
+	gunzip yardradius-X.Y.Z.tar.gz
+	tar xvof yardradius-X.Y.Z.tar
+	cd yardradius-X.Y.Z
+	./configure (--help for help about possible arguments)
+	make
+	make install (as root)
+
+This commands install all programs and data files in /usr/local/yardradius.
+Note that data and log files are no more maintained under
+either /etc or /usr/adm or /var/log, as in Livingston's edition. 
+This is more uniform in respect with usual conventions of 
+other packages. But for this aspect, YARD is totally compatible with
+Livingston's product and is able to produce the same log files and
+accept the same configuration files.
+
+4. RESOLVING COMMON PROBLEMS
+
+* YARD needs a GDBM library installed to compile and work,
+  and the `configure' script tries to find its standard header file (gdbm.h) 
+  and the library (libgdbm.a) on your system. Please, be sure to use
+  the latest release (1.8.0 at this time). Anyway, current version is
+  also compatible with 1.7 release (which seems the most commonly installed
+  among my test platforms).
+
+  Modern Linux or FreeBSD distributions already has a GDBM run-time library
+  available under /usr/lib. This is unfortunately not the case of other 
+  flavors of Unix or old kits. When you have to install it under your box,
+  please choose a good standard place, or configure your system as a consequence.
+
+  In the past years, some weird distributions (e.g. some releases of RedHat 
+  Linux) adopted non standard file names for GDBM, and this fact could cause 
+  some occasional problems during the building process. 
+  My strong suggestion is to be up-to-dated on your system, or to install 
+  GDBM from sources in /usr/local.
+
+* Some distributions of Linux relocate files or rename them, so 
+  maybe you should minimally point the `configure' script in the right
+  direction with one or more suitable command line arguments:
+
+	--with-include=/your/path/to/local/header/files
+	--with-libdir=/your/path/to/local/libs/dir
+	--with-libraries="-lfirstlib -lsecondlib"
+
+  The same thing has to be done, if you put all that stuff under 
+  some exotic places on your system. Anyway, configure tries by default 
+  some traditional directory, like /usr/local or /opt subdirs.
+  Moreover, be sure to sort correctly the libraries included in the
+  --with-libraries argument. 
+
+* GDBM needs a shared library also, which is installed under 
+  /usr/lib or /usr/local/lib generally. The configure program tries to add 
+  a (sorry, not standard) shared library linking directory option, to link 
+  at compile-time the right lib path. Indeed, it tries several of well-known 
+  options. 
+  If your linker does not accept any of those options, you need to add the 
+  GDBM library path to a suitable environment variable (e.g. LD_LIBRARY_PATH 
+  under Solaris and Linux or LD_RUN_PATH under FreeBSD) before running 
+  programs; or to use some alternative technique your operating system 
+  could provide for. In fact, Linux uses an alternative clean way to specify 
+  more run-time paths. Find more information about 'ldconfig' or 
+  `ld.so.conf' in your documentation. 
+
+* Solaris and FreeBSD are known to have troublesome `make' programs.
+  I suggest strongly the use of the GNU make instead. 
+  The use of a compiler different from GNU CC is also strongly discouraged.
+  The only non-GNU compiler I tested is the Compaq True64 one, and it 
+  required modifications in the source code, at that time. The same
+  thing for AIX.
+
+* PAM interface on some systems is available to support a flexible auth/acct
+  mechanism. Be sure to have the development libraries for PAM installed
+  on your system, before building YARD. 
+  They are not installed as default on all platforms (such as some 
+  distribution of Linux, which install the run-time libs only). This
+  is not a problem under Solaris or FreeBSD. PAM support should be 
+  explicitly enabled at configuration time, anyway. Do not enable
+  it if your are not intentioned to use additional modules.
+
+* YARD supports explicit versions of shadowing for the system passwd
+  file. This means it uses the getspnam() function to get the user password
+  and support possibly password expirations (if the system supports this
+  extension). You should explicitly enable this features (as explained
+  in the next section). Note that not all systems which support shadowing 
+  have a getspnam() function available - they could implement a `transparent'
+  shadowing technique (a la FreeBSD for instance). 
+  In those cases the --enable-shadow and --enable-shadowexp arguments have 
+  no sense at all.
+
+5. OPTIONAL CAPABILITIES
+
+YARD configure script can enable/disable some capabilities which are 
+not available or desiderd on all systems. The complete list of extensions 
+is the following one:
+
+  --enable-secureid     to support SecurID library
+  --enable-pam          to support pluggable modules by means of PAM 
+  --enable-activcard    to support ActivCard library
+  --enable-ipass        to support IPass library
+  --enable-shadow       to support shadow passwords
+  --enable-shadowexp    to support shadow expirations
+  --disable-vports      to disable vports
+  --disable-abinary	to disable abinary attribute type support.
+  			This is of interest for Ascend-like NAS only, which
+			requires binary (compiled in) data filters in return
+			records. Generally you will leave it enabled.
+			
+			Per default YardRadius send abinary records as 
+			non-VSA type attribute, which is the default for
+			Ascend TAOS. You need to modify the dictionary
+			to change that.
+
+  --enable-snprintf	to force the use of a portable snprintf()/vsnprintf()
+  --enable-debian	used internally in Debian GNU/Linux packaging
+  --enable-maintainer-mode
+  			autoconfig auto-rebuild is disabled by default.
+			this can re-enable it in resulting Makefiles.
+			That's definitively _not recommend_ if you are
+			not in sync with autoconf 2.59 and automake 1.7.
+
+When shadow expiration is enabled, configure enables also shadow password
+support. All extensions but for shadowing and VPORTS, require additional
+libraries and header files for compilation. Systems with transparent 
+shadowing supports (e.g. FreeBSD) do not need to enable shadowing with 
+this flags. Systems which need shadowing support provide also a 
+getspnam() function. If your flavor of Unix does not support it
+do not use --enable-shadow. The same for --enable-shadowexp.
+
+A portable snprintf() is needed on some systems which do not have one 
+or with a broken implementation. Some systems (such as some versions of
+Solaris) provide an internal (undocumented) version of snprintf() whose
+name is _snprintf(): in that case the use of the YARD own portable 
+version is not mandatory, but only suggested.
+
+Some other useful options for configure are due to GNU autoconf, i.e.
+
+  --with-CC=compiler      use specific C compiler
+  --prefix=PREFIX         install architecture-independent files in PREFIX
+                          [/usr/local/yardradius]
+  --exec-prefix=EPREFIX   install architecture-dependent files in EPREFIX
+                          [same as prefix]
+  --bindir=DIR            user executables in DIR [EPREFIX/bin]
+
+You can get more options available using the command ./configure --help,
+but not all options are useful for a successfull YARD installation.
+
+6. PAM INFO
+
+More information about pluggable auth/acct modules (PAM) can
+be found in the man pages and in 'pam' directory. 
+This is an advanced feature available for
+other developers on some systems. If you do not know what is PAM, 
+probably you do not need it, and if you already know it, 
+you do not need surely me to explain anything :-) 
+

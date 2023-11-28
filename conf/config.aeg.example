@@ -1,0 +1,95 @@
+# Rename this file to config.aeg after installing new ActivCard server
+#
+# -----------------------------------------------------------------
+# This file contains the configuration information necessary for the
+# RADIUS server to connect to the ActivEngine, which is the 
+# ActivCard Authentication Server.
+# -----------------------------------------------------------------
+
+# -----------------------------------------------------------------
+# ACTIVCARD_APPLICATION: APPLICATION_ID
+#
+# ActivCards  contain up to four slots.  Each slot contains a set 
+# of independent DES keys and parameters, so that in practice an 
+# ActivCard is equivalent to four «Tokens».  Each of those «Tokens» 
+# is called a slot and can be used to authenticate through an application 
+# to a distinct ActivEngine.  The concept that the ActivEngine uses to 
+# decide which slot is to be used to verify a dynamic password (ultimately
+# which key among the set of keys stored for this token)  is 
+# the «Application» : Application (Server) -> Slot (Token)
+# 
+#  The following specifies the application to be used to determine the
+# token slot associated with RADIUS authentication requests from
+# the RADIUS server.
+# -----------------------------------------------------------------
+ACTIVCARD_APPLICATION: RADIUS
+
+# -----------------------------------------------------------------
+# ACTIVCARD_CHALLENGE: challenge_request_keyword
+# The ActivCards support simultaneously two authentication codes 
+# for each given slot.  One is a patented time/event synchronous mode 
+# in which the user just types the one-time password displayed by his token
+# instead of the static vulnerable password he was used to.  The other is
+# the standard X9.9, challenge/response mode.
+# ActivCard’s users can choose which mode they want to use by 
+# typing a keyword at the RADIUS password prompt:
+#    login: sam
+#    password: challenge_request_keyword
+# Upon reception of this keyword the ActivCard component embedded in the
+# RADIUS server will switch to challenge/response mode and issue a 
+# challenge (a very good quality random number), and the user will be prompted
+# for a dynamic password:
+#    login: sam
+#    password: challenge_request_keyword
+#
+#   Challenge/Response Authentication requested...
+#   Challenge: 12345678
+#   Response:
+# The user has to type the challenge into his token and type at the prompt the 
+# dynamic password produced by the token for that challenge.
+# -----------------------------------------------------------------
+ACTIVCARD_CHALLENGE: challenge
+
+# -----------------------------------------------------------------
+# ACTIVCARD_HOST: 192.168.15.60
+# The following parameter indicates the ip address of the machine where the
+# ActivEngine is located.
+# -----------------------------------------------------------------
+ACTIVCARD_HOST: 192.168.15.60
+
+# -----------------------------------------------------------------
+# ACTIVCARD_AUTHPORT: 8866
+# The following parameter specifies the port to which the ActivEngine
+# will be listening for authentication requests.
+# -----------------------------------------------------------------
+ACTIVCARD_AUTHPORT: 8866
+
+# -----------------------------------------------------------------
+# ACTIVCARD_SESSTIMEOUT: 25
+# This parameter specifies the timeout value to use when the RADIUS
+# server connects to the ActivEngine.
+# -----------------------------------------------------------------
+ACTIVCARD_SESSTIMEOUT: 25
+
+# -----------------------------------------------------------------
+# ACTIVCARD_SECPOLICY: 0
+# This parameter specifies which type of connection will be established
+# with the ActivEngine: 0(NEGOTIATE), 1(ENCRYPTED), 2(NON-ENCRYPTED).
+# The ActivEngine client component and its server counterpart can establish 
+# a secure channel based on a Diffie-Hellman key exchange.
+# -----------------------------------------------------------------
+ACTIVCARD_SECPOLICY: 0
+
+# -----------------------------------------------------------------
+# ACTIVCARD_PUBKEY:
+# The ActivEngine Diffie-Hellman public key used to establish a secure channel
+# between the RADIUS server and the ActivEngine.
+# 
+# At the time of installation of the ActivEngine, a distribution file called
+# «aeg.dis» is generated. It contains the information necessary to 
+# establish the connection to the ActivEngine as well as the value of the 
+# public key of the ActivEngine
+# -----------------------------------------------------------------
+ACTIVCARD_PUBKEY: 4807E...get this from the ActivEngine distribution file.
+
+

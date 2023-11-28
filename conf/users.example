@@ -1,0 +1,171 @@
+#---------------------------------------------------------------------------
+#
+#	Coppyright (C) 1991 Lucent Technologies. 
+#	Copyright (C) 2000 by Francesco P. Lovergine. 
+#
+#---------------------------------------------------------------------------
+#
+#	This file contains security and configuration information for
+#	each user.  The first field is the user's name and can be up to
+#	8 characters in length.  This is followed (on the same line)
+#	with the list of authentication requirements for that user.
+#	This can include password, comm server name, comm server port
+#	number, and an expiration date of the user's password.  When an
+#	authentication request is received from the comm server, these
+#	values are tested.  Special users named "DEFAULT", "DEFAULT2",
+#	"DEFAULT3" can be created (and should be placed at the end of
+#	the user file) to specify what to do with users not contained
+#	in the user file.
+#
+#	Indented (with the tab character) lines following the first
+#	line indicate the configuration values to be passed back to
+#	the comm server to allow the initiation of a user session.
+#	This can include things like the PPP configuration values
+#	or the host to log the user onto.
+#
+#	Delete or comment out these examples before using this file!
+#
+# Username alex runs PPP if alex uses PAP to authenticate and port autodetects
+#DEFAULT	Auth-Type = System, Framed-Protocol = PPP
+#	Service-Type = Framed-User,
+#	Framed-Protocol = PPP,
+#	Framed-IP-Address = 255.255.255.254,
+#	Framed-MTU = 1500
+#
+#
+# The following section illustrates how to use the new feature of selecting
+# users by their group membership, limiting number of sessions, working
+# with shadow aging, limiting monthly usage in hours.
+#
+#
+# group students have max 1 session and their account expire according to
+# shadow file password aging.
+#DEFAULT Auth-Type = System, Group = "students", Yard-Simultaneous-Use = 1, Expiration = "SHADOW"
+#	Service-Type = Login-User,
+#	Login-Host = 192.168.100.5,
+#	Login-Service = Telnet
+#
+# group externals have a limit of total 30 hours monthly online, with
+# account expiring according to shadow file password aging.
+#DEFAULT Auth-Type = System, Group = "externals", Expiration = "SHADOW", Yard-Max-Monthly-Time = 30
+#	Service-Type = Login-User,
+#	Login-Host = 192.168.100.27,
+#	Login-Service = Telnet
+#
+#
+# Anything else uses Rlogin to the host set for that port
+#
+#DEFAULT	Auth-Type = System
+#	Service-Type = Login-User,
+#	Login-Service = Rlogin
+
+# These are some examples 
+
+pamela	Auth-Type = System, Yard-Simultaneous-Use = 1, Expiration = "SHADOW", Yard-Max-Monthly-Time = 10, NAS-Port-Type = Async
+	Service-Type = Framed-User,
+	Framed-Protocol = PPP,
+	Framed-IP-Address = 255.255.255.254
+
+
+sharon	Auth-Type = System, Yard-Simultaneous-Use = 1, Expiration = "SHADOW", Yard-Max-Monthly-Traffic = 100000, Yard-Max-Yearly-Time = 200, NAS-Port-Type = Async
+	Service-Type = Framed-User,
+	Framed-Protocol = PPP,
+	Framed-IP-Address = 255.255.255.254
+
+static	Auth-Type = System, Yard-Simultaneous-Use = 1,  Expiration = "SHADOW", NAS-Port-Type = Async
+	Service-Type = Framed-User,
+	Framed-Protocol = PPP,
+	Framed-IP-Address = 10.10.10.50,
+	Framed-IP-Netmask = 255.255.255.255
+
+demo	Auth-Type = System, Yard-Simultaneous-Use = 2 
+	Service-Type = Framed-User,
+	Framed-Protocol = PPP,
+	Session-Timeout = 900,
+	Framed-IP-Address = 255.255.255.254
+
+email	Auth-Type = System, Yard-Simultaneous-Use = 1, Expiration = "SHADOW", NAS-Port-Type = Async
+	Service-Type = Framed-User,
+	Framed-Protocol = PPP,
+	Framed-IP-Address = 255.255.255.254,
+	Filter-Id = "email"
+
+many	Auth-Type = System, Yard-Simultaneous-Use = 3,  Expiration = "SHADOW", NAS-Port-Type = Async
+	Service-Type = Framed-User,
+	Framed-Protocol = PPP,
+	Framed-IP-Address = 255.255.255.254
+
+darling	Auth-Type = System, Yard-Simultaneous-Use = 1, Expiration = "SHADOW", Yard-Time = "Wk0800-1800,Sa0800-2400,Su0800-2400" , NAS-Port-Type = Async
+	Service-Type = Framed-User,
+	Framed-Protocol = PPP,
+	Framed-IP-Address = 255.255.255.254
+
+
+cindy	Password = "crawford", Yard-Simultaneous-Use = 1, Expiration = "Jan 26 2000" 
+	Service-Type = Framed-User,
+	Framed-Protocol = PPP,
+	Framed-IP-Address = 255.255.255.254
+
+
+# This is for damned MAX requests at boot.
+
+initial-banner-MAX Auth-Type = Reject
+	Service-Type = Outbound-User
+
+pools-MAX Auth-Type = Reject
+	Service-Type = Outbound-User
+
+ipxroute-1 Auth-Type = Reject
+	Service-Type = Outbound-User
+
+banner Auth-Type = Reject
+	Service-Type = Outbound-User
+
+dovbs-1 Auth-Type = Reject
+	Service-Type = Outbound-User
+
+frdlink-MAX-1 Auth-Type = Reject
+	Service-Type = Outbound-User
+
+bridge-MAX-1 Auth-Type = Reject
+	Service-Type = Outbound-User
+
+permconn-MAX-1 Auth-Type = Reject
+	Service-Type = Outbound-User
+
+route-MAX-1 Auth-Type = Reject
+	Service-Type = Outbound-User
+
+
+#
+# Uh! ISDN access is denied by default
+#
+
+DEFAULT	Auth-Type = Reject, NAS-Port-Type = ISDN-V110
+	Service-Type = Framed-User
+
+DEFAULT	Auth-Type = Reject, NAS-Port-Type = ISDN-V120
+	Service-Type = Framed-User
+
+DEFAULT	Auth-Type = Reject, NAS-Port-Type = Sync
+	Service-Type = Framed-User
+
+DEFAULT	Auth-Type = Reject, NAS-Port-Type = ISDN
+	Service-Type = Framed-User
+
+DEFAULT	Auth-Type = Reject, NAS-Port-Type = Virtual
+	Service-Type = Framed-User
+
+#
+# And this is a nice default entry which uses system files (/etc/passwd
+# and possibly /etc/shadow) to authorize access.
+# Check the contents of allowuser and denyusers in the conf directory 
+# for additional criteria.
+#
+
+DEFAULT	Auth-Type = System, Yard-Simultaneous-Use = 1, Expiration = "SHADOW"
+	Service-Type = Framed-User,
+	Framed-Protocol = PPP,
+	Reply-Message = "starting ppp",
+	Framed-IP-Address = 255.255.255.254
+

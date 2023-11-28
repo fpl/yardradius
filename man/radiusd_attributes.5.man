@@ -1,0 +1,183 @@
+'\" t
+.\" Copyright (c) 2004 Francesco Paolo Lovergine <frankie@debian.org>
+.\" See copyright section for conditions of redistribution
+.\" $Id: radiusd_attributes.5.man 83 2004-08-28 13:32:47Z flovergine $
+.\"
+.TH RADIUSD_ATTRIBUTES 5 "Aug 25, 2004" "1.1" "Yard Radius Manual"
+.SH NAME
+radiusd_attributes \- extended users attributes 
+.SH DESCRIPTION
+This page describes the differences between YARD RADIUS syntax of 
+.I users
+file and the `standard' one of Livingston RADIUS Daemon 2.1. A complete
+description of the syntax of that file is not the scope of this document.
+
+The
+.I users 
+text file contains security and configuration information for
+each user. The first field is the user's name and can be up to 
+8 characters in length.  This is followed (on the same line)
+with the list of authentication requirements for that user.
+This can include password, comm server name, comm server port
+number, and an expiration date of the user's password.  When an
+authentication request is received from the comm server, these
+values are tested.  Special users named "DEFAULT", "DEFAULT2",
+"DEFAULT3" can be created (and should be placed at the end of
+the user file) to specify what to do with users not contained
+in the user file.
+
+Indented (with the tab character) lines following the first
+line indicate the configuration values to be passed back to
+the comm server to allow the initiation of a user session.
+This can include things like the PPP configuration values
+or the host to log the user onto.
+
+Again, a description of all attributes and values is not the topic
+of this document. See NOTES section below for a complete reference 
+about.
+
+.SH "YARD RADIUS ATTRIBUTES"
+YARD RADIUS uses some private non-protocol attributes to support its 
+specific features. They are integer or string attributes that you
+could set to manage in some ways user accesses:
+.TP
+.BR Yard-Simultaneous-Use : 
+The maximum number of simultaneous logins for a user. 
+It's a positive value.
+.TP 
+.BR Yard-Time : 
+It's a list of the access times (week day(s) and hours) during
+which the user is authorized to login. 
+It is a comma-separated list of items such as 
+"Wk0800-1800,Sa0800-2400,Su0800-2400". Each item follows a 
+syntax like "DDHHMM-HHMM", where DD=Mo,Tu,We,Th,Fr,Sa,Su,Al,Wk and
+HHMM are the times of access in 4 characters form. 'Wk' means
+all 5 weekdays ('Mo'-'Fr') and 'Al' is the whole week.
+.TP
+.BR Yard-Max-Monthly-Time :
+The maximum number of on-line hours the user can be on-line per
+month. It is a positive value.
+.TP
+.BR Yard-Max-Monthly-Traffic :
+The maximum number of Kbytes of traffic the user can totalize per
+month. It is a positive value.
+.PP
+.BR "Yard-Max-Daily-Time" :
+
+.BR "Yard-Max-Daily-Traffic" :
+
+.BR "Yard-Max-Yearly-Time" :
+.TP
+.BR "Yard-Max-Yearly-Traffic" :
+At this point, all these attributes are obvious.
+.TP
+.BR "Yard-Pam-Auth" :
+This string is the name of the PAM authentication service to
+use instead of the default one, which is "yard". This is used to
+parse the 
+.BR pam.conf , 
+or the 
+.B pam.d 
+directory to get the PAM module
+to use for auth/acct. You could prefer something like "radius",
+for instance.
+
+.PP
+YARD RADIUS extends also the predefined values of the standard Auth-Type
+attribute, with the following ones:
+
+.TP
+.BR PAM
+Use PAM authentication module. The service name could be specified
+with a 
+.B Yard-Pam-Auth 
+attribute or it implies the default one "yard".
+.TP 
+.B System
+Use system passwd file with or without shadowing. Shadow support 
+should be enabled when calling the `configure' script only if
+your system requires the use of getspnam() in order to get the
+encrypted password. Not all systems that support shadow password
+have that function. If your system has a transparent shadowing
+support, you do not need any specific enabling. Notably this 
+is true for FreeBSD.
+
+If you like so, you can also enable 'shadow expirations'. Systems
+which support this feature must have a compatible getspnam()
+with an expiration field in the spwd structure. 
+So, enabling this feature implies enabling shadow support. 
+When shadow expiration is enabled you can require system-based 
+expirations by using a conventional attribute value like 
+Expiration="SHADOW".
+.TP
+.B Safeword
+Not yet supported.
+.TP 
+.B Defender
+Not yet supported.
+
+.PP
+But for the above attributes and values, many vendor specific attributes
+and values are parsed and legal for YARD RADIUS server. You can refer to
+the 
+.I dictionary 
+file for a complete list. Vendor attributes are useful only when 
+the communication server is configured to send VSA mode requests. Some
+old communication servers could be unable to do this, and in 
+that case you should modify manually the dictionary.
+
+.SH FILES
+.TP
+.B PREFIX/conf/users
+This file contains the human readable information for users' accounting
+and authorization.
+.TP
+.B PREFIX/conf/users.db
+The same of the previous one as compiled in by
+.B builddbm
+in GDBM format.
+.TP
+.B PREFIX/conf/dictionary
+This read-only file contains the codes and formats for 
+standard and vendor RADIUS protocol attributes and values along with 
+their human readable representation. It is subject to change, due to
+new access server supports. It is a plain text file with a pletora
+of comments in it.
+.TP
+.B PREFIX/docs/rfc/rfc2138.txt
+Request For Comments about Remote Authentication Dial In User Service (RADIUS).
+.TP
+.B PREFIX/docs/rfc/rfc2139.txt
+Request For Comments about RADIUS Accounting.
+.SH "SEE ALSO"
+.BR radiusd (8),
+RFC2138, RFC2139
+.SH AUTHOR
+Francesco Paolo Lovergine <francesco@yardradius.org>.
+.P
+A complete list of contributors is contained in CREDITS file. 
+You should get that file among other ones within your distribution 
+and possibly installed under
+.BR "PREFIX/docs " directory
+.SH COPYRIGHT
+Copyright (C) 1992-1999 Lucent Inc. All rights reserved.
+.P
+Copyright (C) 1999-2004 Francesco Paolo Lovergine. All rights reserved.
+.P
+See the LICENSE file enclosed within this software for conditions of 
+use and distribution. This is a pure 
+.B "ISO BSD Open Source License" .
+.SH NOTES
+See the
+.IR "RADIUS for UNIX Administrator's Guide" 
+as a complete reference
+for all other attributes and values.  
+It is freely available at 
+.I http://www.livingston.com/tech/docs/manuals.html
+at the time of this document. Note that many vendor attributes are described
+only within vendor's documentation. 
+
+Currently YARD RADIUS dictionary is 
+updated with vendor's dictionary 
+by Cisco, Lucent, 3COM, Redback, Springtide, Nortel and possibly others, 
+whenever available.

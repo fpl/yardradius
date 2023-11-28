@@ -1,0 +1,32 @@
+#
+# Example configuration file for the radwatch program
+#
+# Each line is of the form:
+#     user_list:restriction:time_list
+# where:
+#  - user_list is a comma-separated list of usernames for which
+#    this line apply. You can use @group syntax to denote the 
+#    standard UNIX user groups.
+#  - restriction is the value in seconds of the maximum permitted
+#    online time within the time_list
+# - time_list: The time_list field is the third colon separated field
+#    and is a list of days of the week and times during which this 
+#    restriction apply to this user. The valid days are 'Su', 'Mo', 
+#    'Tu', 'We', 'Th', 'Fr', and 'Sa'. In addition, the value 'Al' 
+#    represents all 7 days, and 'Wk' represents the 5 weekdays.
+#    Times are given as HHMM-HHMM.  The ending time may be before
+#    the starting time.  Days are presumed to wrap at 0000.
+#
+# Examples follow:
+
+# restrict members of the midnight group and users john and sam
+# on one hour during the business hours:
+@midnight,john,sam:3600:Wk0900-1700
+
+# during the peak hours the members of the freemail and guests
+# have only ten minutes:
+@guests,@freemail:600:Al1000-1130,Wk1530-1700
+
+# and so on...
+
+

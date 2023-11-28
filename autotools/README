@@ -1,0 +1,3 @@
+This directory is used internally by autotools scripts.
+If you are looking for YardRadius configuration files,
+look into the ../conf dir instead.

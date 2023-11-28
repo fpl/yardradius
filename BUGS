@@ -1,0 +1,26 @@
+Bugs notes for YardRadius
+=========================
+
+Known BUGS
+----------
+
+- The user-stats structure seems not able to store modem speeds for some
+  NASes. Those data are anyway available in the `detail' files.
+  The problem is that not all NASes use the same attributes to report them
+  and the format is not standardized.
+
+- Occasionally the user stats database maintains (incorrectly) yet logged
+  users who are no more actually on the NAS. This happens randomly. My
+  guess is that for some reason no acct logout packet reach the daemon,
+  within the time-out/retry period of the NAS, due to high traffic,
+  cpu load or occasional LAN failures. 
+  If possible, please enlarge that period on the NAS and ensure to check
+  your LAN settings and hardware. This problem could be particularly 
+  annoying if you limit logins on a per-user basis :( 
+
+Known NON-BUGS
+--------------
+
+Please consult accurately the old Livingston's guide. 
+Often, what seems a bug is only a configuration misunderstanding.
+

@@ -1,0 +1,22 @@
+
+Yet Another Radius Daemon (YARD) Documentation
+----------------------------------------------
+
+This directory contains documentation of the Radius server.
+Currently the most of documentation is contained in man pages.
+YardRadius used to contain  a group of RFCs which are 'the bible' of the 
+RADIUS authorization and accounting protocols. They can be consulted
+on the net (e.g. on ietf.org). Relevant RFCs are
+
+http://www.ietf.org/rfc/rfc1157.txt
+http://www.ietf.org/rfc/rfc2618.txt
+http://www.ietf.org/rfc/rfc2619.txt
+http://www.ietf.org/rfc/rfc2620.txt
+http://www.ietf.org/rfc/rfc2621.txt
+http://www.ietf.org/rfc/rfc2865.txt
+http://www.ietf.org/rfc/rfc2866.txt
+http://www.ietf.org/rfc/rfc2867.txt
+http://www.ietf.org/rfc/rfc2868.txt
+http://www.ietf.org/rfc/rfc2869.txt
+http://www.ietf.org/rfc/rfc2882.txt
+

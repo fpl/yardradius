@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# $Id: changeprefix 75 2004-08-02 18:40:07Z flovergine $
+#
+# Copyright (C) 2004 Francesco P. Lovergine <frankie@yardradius.org>
+# All rights reserved.
+#
+# This script changes PREFIX entry in the man pages. To be used in
+# configure.in
+#
+# $1 is the directory where man pages to be processed resides.
+# $2 is the prefix to use, as defined at configuration time.
+#
+
+[ $# -eq 2 ] || exit 1;
+
+ECHO="`pwd`/scripts/shtool echo -e"
+
+$ECHO -n "preprocessing man pages..."
+
+for name in $1/*.man
+do
+	new=$1/`basename $name .man`
+	prefix=`echo $2 |sed -e 's/\\//\\\\\\//g'`
+	script="s/PREFIX/$prefix/g"
+	sed -e $script $name > $new
+done
+
+$ECHO "done."
+
+exit 0;

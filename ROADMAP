@@ -1,0 +1,85 @@
+Yet Another Radius Daemon (YARDRADIUS) Development Roadmap 
+----------------------------------------------------------
+
+Development of YardRadius has been stagnant for a long time. 
+The reason is that it is a seasoned and stable product, and
+I was busy in other things, too and lost interest.
+In order to wake up the development of new features, a new
+roadmap for development has been thought.
+
+Current 1.0.x series is considered stable and frozen, but for
+security and portability fixes from time to time. Exactly what
+it has been since the new millennium beginning.
+
+Development will be done in 1.1 branch by successive addendum
+of new features and releasing for test. Changes in 1.1 will
+be not too intrusive and anyway back-compatible. That release
+will be considered the new stable one, as soon as it will be
+ready enough, and then freezed. 
+Active development will move to 1.2 and so on, until 2.0 branch
+(see below) would become a possible candidate for stabilization,
+and I'll be sufficiently happy with its global status and
+consistency.
+
+Major changes will go in a 2.0 branch. The final goal of 2.0 will
+be providing a perfect clone of 1.x functionalities, but with
+a better code and no old Livingston's stuff around. It could 
+also introduce major changes in code architecture 
+(e.g. multi-threading).
+
+Of course do not ask for time lines. Milestones will be available
+when ready.
+
+--
+TODO:
+
+My personal todo list for YARD RADIUS follows, rigorously unordered :-)
+
+
+* Integration of some interesting features stolen from other free
+  servers like Cistron Radius.
+
+* Radtest needs to be extended to test accounting also. I think this
+  is a very urgent thing. But I'm damned lazy.
+
+* Logging messages need to be revised IMHO. Possibly it should use
+  gettext library for international support.
+
+* More work is needed for PAM, with some example modules to read/write data 
+  in relational databases
+
+* I like POSIX compliant sources, so a deep checking of functions and
+  header files is required ASAP. 
+
+* Separate passwd file should be in GDBM format to allow a fast loading.
+
+* A YARD groups file should be introduced along with the alternate passwd
+  file, in GDBM format and without known size limits of standard
+  /etc/group file (i.e. 512 chars for compatibility with NIS).
+
+* radwatch and radtest are far from being complete and debugged :-(
+  Moreover I think their coding style is horrible.
+
+* A new/additional indexed file format should be considered instead of GDBM, 
+  such as Berkeley DB. GDBM maintainment seems currently dismissed.
+
+* A deep analysis of contributed libraries should be conducted in order 
+  to start a re-organization in modules with dynamic loading by dlopen().
+
+* A multithreading implementation should be attempted whenever possible.
+  Many flavor of Unix are currently POSIX multithreaded and this could
+  scale better.
+
+* SNMP protocols integration.
+
+* Modular design for additional feature integration.
+
+* Refactoring of all code in order to remove all Livingston stuff. 
+  This would allow relicensing, too.
+
+* A few tools could be rewritten in a more friendly and feature rich language,
+  such as perl or python.
+
+
+A very long list, as you can see ...
+

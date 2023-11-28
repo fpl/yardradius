@@ -1,0 +1,124 @@
+.\" Copyright (c) 2004 Francesco Paolo Lovergine <frankie@debian.org>
+.\" See copyright section for conditions of rednistribution
+.\" $Id: radtest.1.man 83 2004-08-28 13:32:47Z flovergine $
+.\"
+.TH RADTEST 1 "Aug 28, 2004" "1.1" "Yard Radius Manual"
+.SH NAME
+radtest \- RADIUS server test program
+.SH SYNOPSIS
+.BR radtest " ["
+.B "\-afnrvx" " ] ["
+.B "\-d "
+.IR called_station_id " ] ["
+.B "\-g "
+.IR calling_station_id " ] ["
+.B "\-i "
+.IR id " ] ["
+.B "\-p "
+.IR port " ] ["
+.B "\-s "
+.IR secret " ] ["
+.B "\-t "
+.IR type " ] "
+.B "\-u "
+.IR username " "
+.I password
+.SH DESCRIPTION
+.B radtest
+is a program useful to test the configuration of a running RADIUS
+daemon. You need to add localhost to servers' authorized clients.
+This program is a client for authentication protocol only, it does
+not manage accounting packets currently.
+
+You could use it to test either the YARD RADIUS daemon or any other 
+standard RADIUS server.
+.SH OPTIONS
+.TP
+.B "\-a"
+Sets accounting protocol on. Not yet implemented.
+.TP
+.BR "\-d " called_station_id
+Sets the called station identifier for building packets.
+.TP
+.B \-f
+Sets user type to framed. This is overrided by 
+.B -t 
+option below. 
+.TP
+.BR "\-g " calling_station_id
+Sets the calling station identifier for building packets. 
+.TP
+.B \-h
+Prints out usage of the command.
+.TP
+.BR "\-i " id
+Sets the packet identifier to number `id'.
+.TP
+.B \-n
+Not yet implemented.
+.TP
+.BR "\-p " port
+Uses udp port `port' instead of the value specified in 
+.I /etc/services 
+or the default one (1645).
+.TP
+.B \-r
+Not yet implemented.
+.TP
+.B "\-s " secret
+Specifies the secret key to use (default is localkey)
+.TP
+.B \-v
+Prints version information.
+.TP
+.BR "\-l " file
+Changes the logging file. 
+.TP
+.BR "\-x"
+Prints (or should do so) debugging messages while compiling.
+
+.SH FILES
+.TP
+.I PREFIX/conf/users
+This file contains the human readable information for users' accounting
+and authorization. See 
+.BR radius_attributes (5)
+for details about its syntax.
+.TP
+.I PREFIX/conf/users.db
+The same of the previous one as compiled in by
+.B builddbm
+in GDBM format. It needs to be compiled again every time you make
+changes to the previous one and without restarting 
+.B radiusd .
+.TP
+.I PREFIX/conf/dictionary
+This read-only file contains the codes and formats for 
+standard and vendor RADIUS protocol attributes and values along with 
+their human readable representation. It is subject to change, due to
+new access server supports. It is a plain text file with a pletora
+of comments in it.
+.SH "SEE ALSO"
+.BR radiusd (8),
+.BR radlast (1),
+.BR radlist (1),
+.BR radtest (1),
+.BR radwatch (1),
+.BR radius_attributes (1),
+.BR gdbm (3)
+.SH COPYRIGHT
+Copyright (C) 1992-1999 Lucent Inc. All rights reserved.
+.P
+Copyright (C) 1999-2004 Francesco Paolo Lovergine. All rights reserved.
+.P
+See the LICENSE file enclosed within this software for conditions of 
+use and distribution. This is a pure 
+.B "ISO BSD Open Source License" .
+.SH NOTES
+The syntax of the source 
+.I users 
+file is not described here.
+Please, refer to the official Livingston documentation, 
+which includes the 
+.IR "RADIUS for UNIX Administrator's Guide" . 
+

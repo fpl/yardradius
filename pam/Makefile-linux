@@ -1,0 +1,38 @@
+#
+# Makefile for the pam_radius_session module
+#
+
+TITLE	= pam_radius_session
+
+FILES	= pam_radius_session
+
+####################### don't edit below #######################
+CC	= gcc
+WARNINGS = -ansi -D_POSIX_SOURCE -Wall -Wwrite-strings -Wpointer-arith \
+	-Wcast-qual -Wcast-align -Wtraditional -Wstrict-prototypes \
+	-Wmissing-prototypes -Wnested-externs -Winline -Wshadow -pedantic \
+	-D_LINUX_GLIBC -D_GNU_SOURCE
+PIC	= -fPIC
+LD_FLAGS = -shared -Xlinker -x
+
+CFLAGS	= $(WARNINGS)
+DYNAMIC	= -DPAM_DYNAMIC
+
+LIBSRC	= $(addsuffix .c,$(FILES))
+LIBOBJ	= $(addsuffix .o,$(FILES))
+
+%.o : %.c Makefile
+	$(CC) $(CFLAGS) $(DYNAMIC) $(PIC) -c $< -o $@
+
+LIBSHARED = $(TITLE).so
+
+all: $(LIBSHARED)
+
+$(LIBSHARED):	$(LIBOBJ)
+	$(CC) $(LD_FLAGS) $(PIC) -o $@ $(LIBOBJ)
+
+clean:
+	rm -f $(LIBOBJ) $(LIBSHARED) core *~
+
+install: all
+	install -m 0644 -o root -g root $(LIBSHARED) /lib/security

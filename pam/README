@@ -1,0 +1,37 @@
+$Id: README 56 2002-01-19 16:38:56Z kiavik $
+
+Code here is contributed by Christian Gafton who worked (or works?) 
+about PAM in RedHat Inc. What follows is his original README file.
+I hope to contribute in the near future to this section.
+
+- Francesco
+
+README for the sample pam_radius_session module for PAM
+-------------------------------------------------------
+
+This is a sample module you can use with the pamified version of the radius
+daemon. His own purpose is to fill your logs with acct packet information if
+you call it with the 'debug' argument. Otherwise, it is silent.
+
+Usage:
+
+If you want it to be silent, but to be available to the PAM library,
+configure your /etc/pam.d/radius configuration by adding the session entry
+for this module:
+
+---- /etc/pam.d/radius 	----
+[... auth and account entries ...]
+session		required	/lib/security/pam_radius_session
+----			----
+
+If you want it verbose:
+
+---- /etc/pam.d/radius  ----
+[... auth and account entries ...]
+session         required        /lib/security/pam_radius_session debug
+----                    ----
+
+
+Of course, you can modify it to do you SQL database logging, etc. You are on
+your own from this moment. :-)
+

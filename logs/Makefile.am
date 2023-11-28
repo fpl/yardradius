@@ -1,0 +1,6 @@
+AUTOMAKE_OPTIONS = foreign
+
+INSTALL = @INSTALL@
+
+logsdir = $(YARDLOG)
+logs_DATA = README 

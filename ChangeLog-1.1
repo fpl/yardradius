@@ -1,0 +1,77 @@
+This the changelog for the 1.1 development series.
+
+2007-06-28 Francesco P. Lovergine <francesco@lovergine.com>
+
+	* Fixed a va_end() call typo in radlist.c
+
+2007-06-27 Francesco P. Lovergine <francesco@lovergine.com>
+	
+	* Tagging 1.1.2
+	* Removed RFCs and left around a note about relevant RFCs to consult
+	  on the net.
+	* Updated scripts/bootstrap
+	* Updated email address
+
+2004-08-28 Francesco P. Lovergine <francesco@lovergine.com>
+	
+	* Tagging 1.1.1
+	* Year of copyright updated to 2004 everywhere.
+	* Changed my email to current one whenever needed.
+	* Updated INSTALL file and changelogs.
+	* radtest.c: Removed evil strcpy() and sprintf(). 
+	* radiusd.c: Removed most of the evil residual strcpy() and sprintf().
+	* proxy.c: Removed a couple of superfluous short range comparisons 
+	  which caused warning.
+
+2004-08-27 Francesco P. Lovergine <francesco@lovergine.com>
+
+	* radtest.c: Now support abinary type.
+	* conf/dictionary: Changed abinary attributes in non-VSA in the default dictionary.
+	* shtool: updated to 2.0.1 version.
+
+2004-08-20 Francesco P. Lovergine <francesco@lovergine.com>
+
+	* __debug macro renamed (debug) and rewritten in a more safe style using ANSI syntax for C pre-proc.
+          Moved into yard.h header file. 
+
+2004-08-19 Francesco P. Lovergine <francesco@lovergine.com>
+
+	* Added an enable option for explicit configuration of abinary support.
+	* Corrected a subdle bug which in --disable-x code due to a superfluous comma.
+
+2004-08-17 Francesco P. Lovergine <francesco@lovergine.com>
+
+	* Added abinary attribute type support for Ascend binary data filter.
+	  Partially based on an old Ascend patch for radius 1.16 and Cistron
+	  unofficial patch. Needs surely a good and deep revision.
+
+2004-08-02 Francesco P. Lovergine <francesco@lovergine.com>
+
+	* Changes in copyright notices of all source files.  Also some typos are now corrected.
+	  License is now a new-BSD type, without the advertising clause.  
+	  That is of course true only for my own code. I leaved the Lucent advertising clause 
+	  in LICENSE.LUCENT as required by the old license.
+	* Refinement in size definitions of all data structures.
+	* A buffer overflow in calc_acctreq() has been patched.
+	* Changed --version in -dumpversion for gcc versioning in configure.ac. This broke things in gcc 3. New arg is
+          back compatible also.
+	* Autoconf scripts converted to 2.5x series. It required deep revision of all autotools stuff. Now dist and distcheck
+	  targets work smart, too. Renamed in configure.ac the main autoconfigure script.
+	* All autotools configuration addons moved in an 'autotools' directory. Too many modifications into autoconf script 
+	  are done to note them here. See sources, seemply rewritten many stuff. Autotools hack is art, not science.
+	* configure.in changed in configure.ac.
+	* acconfig.h removed due to use of the new AH_TEMPLATE macro.
+	* Now builddbm and radiusd are installend under 'sbin' which seems a more correct destination for those files.
+	* version.c revised to clean string manipulation.
+	* GNU shtool updated to version 2.0.0.
+	* Removed TODO file, introduced ROADMAP instead.
+	* Removed ChangeLog file, introduced ChangeLog-1.0 and ChangeLog-1.1 instead.
+	* Useful scripts are now in a 'scripts' directory to clean up top dir.
+	* PGP-KEY renamed in GPG-KEY, which is more appropriate.
+	* Revised README, INSTALL, BUGS and other sources documentation.
+	* Fully ANSI-fied all functions around. New style of coding introduced, too: 
+		
+		o now function return type is kept into a standalone line. That
+	  	  to list easily function in any source file by grepping.
+		o all function args stay on the same line with function name.
+		  Same reason.

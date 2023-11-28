@@ -1,0 +1,90 @@
+.\" Copyright (c) 2004 Francesco Paolo Lovergine <frankie@debian.org>
+.\" See copyright section for conditions of redistribution
+.\" $Id: builddbm.8.man 83 2004-08-28 13:32:47Z flovergine $
+.\"
+.TH BUILDDBM 8 "Aug 25, 2004" "1.1" "Yard Radius Manual"
+.SH NAME
+builddbm \- users.db compiler
+.SH SYNOPSIS
+.BR builddbm " [ "
+.BR \-hvx " ] [ "
+.B \-d 
+.IR directory " ] [ "
+.BI \-l " file " 
+]
+.SH DESCRIPTION
+YARD RADIUS
+.B builddbm
+is a program that builds
+the GDBM format of the `users' file,
+which could be used in conjunction with the 
+.B radiusd 
+`-b' flag.
+The users file should resides in the standard configuration
+directory, as selected at configuration time. It should be
+run as root. Be also sure to set mode 600 for the `users'
+file as well as the resulting `users.db'.
+.SH OPTIONS
+.TP
+.BR "\-d " directory
+Changes the source `users' file directory. The default value 
+is PREFIX/conf. The destination directory of `users.db' is the
+same one.
+.TP
+.B \-h
+Prints out usage of the command.
+.TP
+.B \-v
+Prints version information.
+.TP
+.BR "\-l " file
+Changes the logging file. 
+.TP
+.BR "\-x"
+Prints (or should do so) debugging messages while compiling.
+
+.SH FILES
+.TP
+.I PREFIX/conf/users
+This file contains the human readable information for users' accounting
+and authorization. See 
+.BR radius_attributes (5)
+for details about its syntax.
+.TP
+.I PREFIX/conf/users.db
+The same of the previous one as compiled in by
+.B builddbm
+in GDBM format. It needs to be compiled again every time you make
+changes to the previous one and without restarting 
+.B radiusd .
+.TP
+.I PREFIX/conf/dictionary
+This read-only file contains the codes and formats for 
+standard and vendor RADIUS protocol attributes and values along with 
+their human readable representation. It is subject to change, due to
+new access server supports. It is a plain text file with a pletora
+of comments in it.
+.SH "SEE ALSO"
+.BR radiusd (8),
+.BR radlast (1),
+.BR radlist (1),
+.BR radtest (1),
+.BR radwatch (1),
+.BR radius_attributes (1),
+.BR gdbm (3)
+.SH COPYRIGHT
+Copyright (C) 1992-1999 Lucent Inc. All rights reserved.
+.P
+Copyright (C) 1999-2004 Francesco Paolo Lovergine. All rights reserved.
+.P
+See the LICENSE file enclosed within this software for conditions of 
+use and distribution. This is a pure 
+.B "ISO BSD Open Source License" .
+.SH NOTES
+The syntax of the source 
+.I users 
+file is not described here.
+Please, refer to the official Livingston documentation, 
+which includes the 
+.IR "RADIUS for UNIX Administrator's Guide" . 
+

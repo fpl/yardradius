@@ -1,0 +1,26 @@
+#<--- This is a comment line
+#
+# allowuser
+#
+# This file can be used to allow access to users/groups which match
+# one or more of the following criteria:
+#
+# USER: username match
+# SHELL: user default shall match
+# GECOS: user gecos-field contains a certain string
+# GROUP: user belongs to a matching group.
+#
+# A special meaning value is ANY, used as a value for any of the 
+# previous hints. All users/groups match it.
+#
+# Anyone of the following criteria allow all user (not suggested)
+#
+USER: ANY
+SHELL: ANY
+GECOS: ANY
+GROUP: ANY
+#
+# An empty or missing file grants access to anyone not denied in
+# denyuser. Se also that file.
+
+

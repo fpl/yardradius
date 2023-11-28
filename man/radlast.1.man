@@ -1,0 +1,144 @@
+.\" Copyright (c) 2004 Francesco Paolo Lovergine <frankie@debian.org>
+.\" See copyright section for conditions of redistribution
+.\" $Id: radlast.1.man 83 2004-08-28 13:32:47Z flovergine $
+.\"
+.TH RADLAST 1 "Aug 25, 2004" "1.1" "Yard Radius Manual"
+.SH NAME
+radlast \- lists last users access and stats 
+.SH SYNOPSIS
+.BR radlast " [ "
+.BR "\-chbx" " ] ["
+.B "\-a "
+.IR acct_dir " ] ["
+.B "\-f "
+.IR file " ] ["
+.B "\-F "
+.IR format_string " ] ["
+.B "\-H "
+.IR format_string " ] ["
+.B "\-m " 
+.IR month " ] ["
+.B "\-u "
+.IR user " ] ["
+.B "\-y "
+.IR year " ]"
+.SH DESCRIPTION
+This program gives a detailed list of last accesses for one or more
+users. It does not collect statistical information. It's a fast
+and compact dumper of the traditional `detail' files of Livingston's
+Radius. It's output is in some way similar to that of the Unix command `last'
+but also high-customizable (see FORMATS section below).
+.SH OPTIONS
+.TP
+.BR "\-a " acct_dir
+Sets the accounting files directory prefix, instead of the 
+default one, which is 
+.I PREFIX/logs
+.TP
+.B \-b
+Uses a single-row brief output format. 
+.TP
+.B \-c
+Shows records in cronological order.
+.TP
+.BR "\-f " file
+Uses this radlast logfile instead of the default stdout.
+.TP
+.B \-h
+Prints out usage of the command.
+.TP
+.BR "\-F \-H " format_string
+Define customized formats for output rows and the header. 
+See FORMATS section below.
+.TP
+.BR "\-m " month
+Reports statistics for month 
+.I month
+where month is in the range 1-12.
+.TP
+.BR "\-y " year
+Reports statistics for year
+.I year
+that is a four digits number.
+.TP
+.B \-x
+Shows extedend information (include traffic and phone CLIs)
+.P
+.SH FORMATS
+.B radlast
+does allow the user to  have a customized output format with the `-F' 
+command line option (see above). The program accepts and outputs any
+character in a format string and parse it to find some %-prefixed
+one-letter tokens. Those `a la' printf tokens are substituted with
+corresponding entry values.
+Normal C substitution are performed for \\\\,\\t,\\n,\\r and \\%.
+The list of legal % tokens follows, any oher combination is parsed 
+and ignored.
+
+.TS
+l l.
+Token	Value
+_
+%l	Username
+%p	Port ID
+%a	NAS ip address
+%k	Port type
+%c	Client ip address
+%d	Date in ctime format
+%t	Online time in secs
+%T	Online time in HH:MM:SS format
+%i	Input traffic in bytes
+%I	Input traffic in KBytes
+%o	Output traffic in bytes
+%O	Output traffic in KBytes
+%m	Total traffic in bytes
+%M	Total traffic in KBytes
+%s	Input speed in bps (or UNKNOWN)
+%S	Output speed in bps (or UNKNOWN)
+%A	NAS called id (or UNKNOWN)
+%#	Client calling id (or UNKNOWN)
+%%	literal '%'
+.TE
+
+.SH FILES
+.TP
+.I "PREFIX/logs/YEAR/radlast-XX"
+These are the files which constitutes the radlast database. They are in 
+binary not-indexed format and functionally equivalent to the text files
+`detail-XX'. The main difference is that detail files are organized on
+a per client base. See below.
+.TP
+.I "PREFIX/logs/NAS/YEAR/detail-XX"
+These text files stores accounting information for every access server
+(NAS) listed in the 
+.I clients
+file. Each user session is identified by a unique session-id and these
+accounting files store start/stop records for every single authenticated
+session. Information stored in those records, but for a group of standard
+ones, strictly depend on the NAS model and operating system. 
+.SH BUGS
+The 
+.BR "-x " option
+apparently is not working.
+.SH "SEE ALSO"
+.BR builddbm (8),
+.BR radiusd (8),
+.BR radlist (1),
+.BR radtest (1),
+.BR radwatch (1),
+.BR radius_attributes (5),
+.SH AUTHOR
+Francesco Paolo Lovergine <francesco@yardradius.org>.
+.P
+A complete list of contributors is contained in CREDITS file. 
+You should get that file among other ones within your distribution 
+and possibly installed under
+.BR "PREFIX/docs " directory
+.SH COPYRIGHT
+Copyright (C) 1997 Cristian Gafton. All rights reserved.
+.P
+Copyright (C) 1999-2004 Francesco Paolo Lovergine. All rights reserved.
+.P
+See the LICENSE file enclosed within this software for conditions of 
+use and distribution. This is a pure 
+.B "ISO BSD Open Source License" .

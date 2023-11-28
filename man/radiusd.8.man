@@ -1,0 +1,392 @@
+'\" t
+.\" Copyright (c) 2004 Francesco Paolo Lovergine <frankie@debian.org>
+.\" See copyright section for conditions of redistribution
+.\" $Id: radiusd.8.man 83 2004-08-28 13:32:47Z flovergine $
+.\"
+.TH RADIUSD 8 "Aug 25, 2004"  "1.1" "Yard Radius Manual"
+.SH NAME
+radiusd \- Yet Another Radius Daemon (YARD RADIUS)
+.SH SYNOPSIS
+.B radiusd " ["
+.BR \-AbchoPsvxz " ] ["
+.B "\-a "
+.IR acct_dir " ] ["
+.B "\-d "
+.IR db_dir " ] ["
+.B "\-f "
+.IR alt_passwd_file " ] ["
+.B "\-i "
+.IR ip_addr " ] ["
+.B "\-l "
+.IR log_file " ] ["
+.B "\-p " 
+.IR udp_port " ] ["
+.B "\-q "
+.IR max_outstanding_reqs  " ] ["
+.B "\-t "
+.IR max_queue_secs " ] ["
+.B "\-w "
+.IR max_proxy_secs " ]"
+.SH DESCRIPTION
+YARD
+.B radiusd
+is a program that provides authorization and accounting services for
+remote hosts, based on RADIUS protocols.
+RADIUS protocols are defined in a pair of RFC documents 
+and currently used by the majority of network access servers and routers
+in order to manage incoming dialup connections. 
+Open source products of RADIUS clients are also available for general 
+use on *nix hosts.
+.P
+YARD RADIUS daemon is largerly based on the original Livingston 
+Inc. RADIUS 2.1 daemon (currently known as Lucent Inc. Remote 
+Access RADIUS server 2.1 \- Livingston Inc. is now disappeared...). 
+It enhances the original code with a number of useful features, such as
+control of simultaneous logins, support of many non standard vendor clients,
+autoconfiguration capabilities, PAM services, MD5 passwords, etc.
+All them are very useful in real world area of application (e.g. ISPs).
+A complete and up-to-date list of extensions currently present 
+in YARD RADIUS is available in the Changelog file, which should be enclosed
+in sources.
+.P
+The daemon listens to a couple of non privileged UDP ports (1645 and 1646)
+and possibly to other two ones (1815 and 1816), when proxy is enabled.
+Those ports could also be changed at run-time, but you are not encouraged
+to do this. If your authorization information are available either as a 
+separate passwd file or self-contained in  
+.BR users
+file (i.e. in some form independent from system passwd file, see below) 
+you could run 
+.B radiusd
+as a non privileged users.
+.P
+All configuration files of YARD RADIUS are contained under 
+.IR PREFIX/conf directory
+if not spe
+.SH OPTIONS
+.TP
+.BR "\-a " acct_dir
+Sets the accounting directory instead of the builtin default.
+The default is choosen at configuration time and it is 
+generally
+.I PREFIX/logs
+.TP
+.B \-A
+Enable accounting via PAM. See below.
+.TP
+.B \-b
+Uses GDBM for the users file (
+.I users.db
+) instead of the plain text version (
+.I users
+)
+This improve performances of users file checking for authentication.
+It's strongly suggested. But it's not completely equivalent to plain
+text, because GDBM files are strictly unsorted. This could be
+ok or not, it depens on your specific choices of attributes.
+You need to run 
+.B builddbm
+to convert the plain 
+.I users
+file in the GDBM indexed file and this needs
+to be done every time you changes users file contents.
+.TP
+.B \-c
+Clears user stats database. This should be done to solve troubles
+due to unsynchonized status among the servers and one or more of
+its clients. Mabye, after a cold-reboot of an access server.
+.TP
+.BR "\-d " db_dir
+Sets the database directory instead of the builtin default one.
+The default is choosen at configuration time and it is 
+generally 
+.B PREFIX/logs.
+.TP
+.B \-h
+Prints out usage of the command.
+.TP
+.BR "\-f " alt_passwd_file
+Sets an alternate password file name to use instead of the system password
+file 
+.B /etc/passwd.
+.TP
+.BR "\-i " ip_addr
+Sets an alternate IP for the server host, instead of the default one.
+This is useful if the host on which the daemon is runnig has multiple 
+interfaces or ip aliases.
+.TP
+.BR "\-l " log_file
+Sets a logging text file, to use instead of 
+.BR syslog .
+.TP
+.B \-o
+Accept all-zero accounting requests authenticator.
+A damned thing to use with some old non-RFC compliant clients. 
+Use this if you see this kind of errors in the logging file, only.
+.TP
+.BR "\-p " udp_port
+Set an alternate radius port number. 
+Default ports should be (optionally) defined in 
+.B /etc/services 
+as follows:
+
+.TS
+l l.
+Name	Port
+_
+radius	1645/udp
+radacct	1646/udp
+radius-proxy	1815/udp
+radacct-proxy	1816/udp
+.TE
+
+If they are not in that file, the above ones are used. 
+If you specify the port `n' as the argument of 
+.BR "\-p " "option, then"
+.B radiusd 
+tries to use the following ports:
+
+.TS
+l l.
+Name	Port
+_
+radius	n/udp
+radacct	n+1/udp
+radius-proxy	n+5/udp
+radacct-proxy	n+6/udp
+.TE
+
+.TP
+.B \-P
+Enable authorization via PAM. See below.
+.TP
+.BR "\-q " max_outstanding_reqs
+Sets the incoming packets queue size. 100 is the default.
+.TP
+.B \-s
+Forks another process for accounting.
+This is not generally suggested, due to dependencies among 
+auth and acct modules in YARD
+.B radiusd .
+.TP
+.BR "\-t " max_queue_secs
+Set time out for requests queue.
+.TP
+.B \-v
+Print version. It shows also enabled features. Version number should be
+a group of three point-separated numbers, such as 
+.B major.minor.patch
+where meaning of the three values should be obvious. It's not easy to define
+a `major' advancement in respect of a `minor' one. Anyway, 
+any minor/major number should correspond to a different branch 
+in the CVS repository. This is not true for a patching release.
+.TP
+.B "\-w " max_proxy_secs
+Set time out for proxy requests.
+.TP
+.B \-x
+Set debug mode on. It increases verbosity level.
+.TP
+.B \-z
+The same of 
+.BR "\-b \-x \-d . \-a ra" . 
+This is intended for debugging.
+.P
+.SH FILES
+.B radiusd
+requires a group of configuration files under 
+.I PREFIX/conf 
+in order to properly work. 
+Examples of those
+working files are provided with sources and should be present 
+under the same directory, with extension 
+.IR .example .
+All files are well commented and it should be easy to customize them.
+The work files are the following ones:
+.TP
+.I PREFIX/conf/users
+This file contains the human readable information for users' accounting
+and authorization. See 
+.BR radius_attributes (5)
+for details about its syntax.
+.TP
+.I PREFIX/conf/users.db
+The same of the previous one as compiled in by
+.B builddbm
+in GDBM format. It needs to be compiled again every time you make
+changes to the previous one and without restarting 
+.B radiusd .
+.TP
+.I PREFIX/conf/dictionary
+This read-only file contains the codes and formats for 
+standard and vendor RADIUS protocol attributes and values along with 
+their human readable representation. It is subject to change, due to
+new access server supports. It is a plain text file with a pletora
+of comments in it.
+.TP
+.I PREFIX/conf/clients
+It contains names or ip addresses of remote clients authorized 
+to use the server for authentication and accounting,
+.IR "along with their passwords in clear text" .
+So this file should be protected with mode 600.
+.TP
+.I PREFIX/conf/clcache
+The same of the previous file as cached in GDBM format for fast access
+at daemon startup. With the same recommendations for file access modes.
+.TP
+.I PREFIX/conf/proxy
+This file is used to collect proxy hosts and their associated realms 
+and passwords. It contains  a list of remote servers to forward to
+authentication and accounting requests.
+
+Every line refers to a different proxy server: the first field is a
+valid hostname or ip address; the second field (seperated by blanks or
+tabs) is the shared secret); the third field is the named or numeric
+authentication realm; the fourth field can contain the optional RADIUS
+UDP Port number of the remote server, the RADIUS and RADIUS Accounting
+Port numbers, and any of following optional keywords:
+
+.TS
+l lw42.
+old	T{
+Strip realm and do not attach Proxy-State when forwarding
+T}
+secure	T{
+Allow remote server to authorize admin logins for your client
+T}
+ipass	T{
+Use the ipass protocol
+T}
+.TE
+
+The realm string must follow an `@' sign after the username to identify
+the correct proxy server.
+.TP
+.I PREFIX/conf/allowuser
+You can list here (one per line) usernames/groupnames who
+are granted for having access (if their password are correct). 
+Each entry must respect one of the following syntaxes:
+
+.TS
+l l.
+USER:	<username>
+GROUP:	<groupname>
+GECOS:	<string>
+SHELL:	<string>
+.TE
+
+so you can match users by usernames, groupnames, gcos
+substrings (i.e. case-sensitive sub-strings in the fifth field
+of the system /etc/passwd file or the alternate password file),
+or shell paths. You can use the special string `ANY' as a matching
+argument too (e.g. `USER: ANY'). An empty or missing file grants
+access to anyone which is not listed in the next file.
+.TP
+.I PREFIX/conf/denyuser
+The same syntax of allowuser can be used to deny access to
+specific classes of users, with the same previous matching 
+criteria. An empty or missing file grants access to anyone
+which is listed in the previous file or not.
+.P
+Note that all users have always to match their password with the
+authorization module selected in their `users' file entry, after the
+above files allowed to login. You cannot use these files
+to grant access without any other additional authentication.
+.TP
+.I PREFIX/conf/stopuser
+This text file is created by 
+.B radwatch 
+to deny access to users,
+when certain conditions are reached (as selected in the radwatch
+configuration file). The authentication daemon 
+.B radiusd
+consults 
+that file along with `denyuser' in order to grant access or not.
+It has an entry per line, which should be a valid system or `users'
+username.
+.TP
+.I PREFIX/conf/radwatch.conf
+This is the configuration file for 
+.BR radwatch .
+It is a text files each line of which is of the form:
+.I "user_list:restriction:time_list"
+where `user_list' is a comma-separated list of usernames for which
+this line apply. You can use @group syntax to denote the standard 
+UNIX user groups. The field `restriction' is the value in seconds of the
+maximum permitted online time within the `time_list'. This one is the
+third colon separated field
+and is a list of days of the week and times during which this
+restriction apply to this user. The valid days are 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', and 'Sa'. 
+In addition, the value 'Al'
+represents all 7 days, and 'Wk' represents the 5 weekdays.
+Times are given as HHMM-HHMM.  The ending time may be before
+the starting time.  Days are presumed to wrap at 0000.
+.TP
+.I PREFIX/conf/config.aeg
+This text file contains the configuration information necessary for 
+.B radiusd
+to connect to the ActivEngine, which is the 
+.BR "ActivCard " "Authentication Server."
+See comments contained in the
+example file provided for details.
+.SH "LOGGING FILES"
+All logging and accounting files of YARD RADIUS are stored under 
+`PREFIX/logs'. Accounting files are organized on a per-month
+and per-year basis. All files written by Livingston's server are
+also written by YARD, but it also creates some specific binary files to store
+the on-line status of users, and collect users statistics.
+
+It's important to ensure that those files are synchronized with the real
+status of the clients, to avoid annoying denial-of-service troubles 
+to your users (e.g. in conjunction with a Yard-Simultaneuous-Use attribute). 
+This could happen when one or more clients reboots without
+sending suitable stop accouting records before. In those cases, YARD 
+has to be killed too and restarted with a `clean up' argument `-c', in order
+to reset its internal status.
+
+The logging file structure is as follows:
+
+.TS
+l l.
+<year>/user-stats	GDBM yearly file
+<year>/radlast-XX	Binary compact monthly file
+<nas>/<year>/detail-XX	Livingston-like logging text file
+.TE
+
+This allows very fast computing of statistics and maintaining on-line 
+status.
+.SH BUGS
+Bugs? What's a bug?
+.SH "SEE ALSO"
+.BR builddbm (8),
+.BR radlast (1),
+.BR radlist (1),
+.BR radtest (1),
+.BR radwatch (1),
+.BR radius_attributes (5),
+.BR gdbm (3)
+.SH AUTHOR
+Francesco Paolo Lovergine <francesco@yardradius.org>.
+.P
+A complete list of contributors is contained in CREDITS file. 
+You should get that file among other ones within your distribution 
+and possibly installed under
+.BR "PREFIX/docs " directory
+.SH COPYRIGHT
+Copyright (C) 1992-1999 Lucent Inc. All rights reserved.
+.P
+Copyright (C) 1999-2004 Francesco Paolo Lovergine. All rights reserved.
+.P
+See the LICENSE file enclosed within this software for conditions of 
+use and distribution. This is a pure 
+.B "ISO BSD Open Source License" .
+.SH NOTES
+The configuration of a RADIUS server is an argument too long to
+deal with it here. Please, refer to the official Livingston documentation, 
+which includes the 
+.IR "RADIUS for UNIX Administrator's Guide" . 
+It is freely available at 
+.I http://www.livingston.com/tech/docs/manuals.html
+at the time of this document. 
+.P
+It's a very good point to start with.

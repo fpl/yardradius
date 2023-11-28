@@ -1,0 +1,115 @@
+--------------------------------------
+PAM-ified RADIUS
+--------------------------------------
+
+	Written by Jeff Blaize <jblaize@kiva.net>
+	All credit goes to him. Slightly modified by Cristian Gafton.
+
+At this point with the new PAMified radiusd installed, it should operate just as
+it always has. However, I've added a two more items to the dictionary that
+make it all worth our while. Here are some examples for the /etc/raddb/users
+file:
+
+DEFAULT Auth-Type = PAM, Framed-Protocol = PPP,
+        Service-Type = Framed-User,
+        Framed-Protocol = PPP,
+        Framed-IP-Address = 255.255.255.254,
+        Framed-MTU = 1500,
+        Framed-Compression = Van-Jacobson-TCP-IP,
+
+DEFAULT Auth-Type = PAM,
+        Menu = "menu1"
+
+This allows you to specify Auth-Type of "PAM" (instead of "System") which
+then by default uses the "radius" entry of the pam.conf for PAM
+authentication. An /etc/pam.d/radius file for this to check the /etc/x2users
+file may look like this:
+
+---- /etc/pam.d/radius ----
+# radius stuff
+auth       required     /lib/security/pam_unix_auth.so
+auth       required     /lib/security/pam_listfile.so \
+		item=user sense=allow file=/etc/x2users onerr=fail
+account    required     /lib/security/pam_unix_acct.so
+
+You may not want to bother with the last line for accounting since RADIUS
+does a wonderful job of accounting on its own. At least that's what I'm
+assuming it does, but I've never bothered to look into it, so I couldn't
+tell you for sure.
+
+Now let's say you want multiple PAM entries for different users. Then you
+can do something like this in your /etc/raddb/users file:
+
+Joe     Auth-Type = PAM, Framed-Protocol = PPP
+        Service-Type = Framed-User,
+        Framed-Protocol = PPP,
+        Framed-IP-Address = 255.255.255.254,
+        Framed-MTU = 1500,
+        Framed-Compression = Van-Jacobson-TCP-IP,
+
+DEFAULT Auth-Type = PAM, Framed-Protocol = PPP, PAM-Auth="x2"
+        Service-Type = Framed-User,
+        Framed-Protocol = PPP,
+        Framed-IP-Address = 255.255.255.254,
+        Framed-MTU = 1500,
+        Framed-Compression = Van-Jacobson-TCP-IP,
+
+DEFAULT Auth-Type = PAM,  PAM-Auth="mradius"
+        Menu = "menu1"
+
+With something like this in the /etc/pam.d/ directory:
+
+---- /etc/pam.d/radius ----
+auth       required     /lib/security/pam_unix_auth.so
+account    required     /lib/security/pam_unix_acct.so
+
+---- /etc/pam.d/x2 ----
+auth       required     /lib/security/pam_unix_auth.so
+auth       required     /lib/security/pam_listfile.so \
+		item=user sense=allow file=/etc/x2users onerr=fail
+account    required     /lib/security/pam_unix_acct.so
+
+---- /etc/pam.d/mradius ----
+auth       required     /lib/security/pam_unix_auth.so
+auth       required     /lib/security/pam_nologin.so
+account    required     /lib/security/pam_unix_acct.so
+
+This would allow user Joe to login using /etc/passwd or shadow. All other
+PPP users would authenticate via PAP or CHAP by /etc/passwd or shadow, but
+only if they're in the /etc/x2users file. Then all non PPP users will get
+the menu, but not if /etc/nologin exists. Of course, you could just as
+easily have Joe's entry with Auth-Type=System, but then you wouldn't be
+using your new toy, see.
+
+---------------------------------------------
+PAM module support for session logging
+---------------------------------------------
+
+Information for module writers only:
+
+This PAMified version of radiusd supports the PAM session modules. A module
+writer willing to use this will have to be aware, however, of the
+non-standard way of passing the information contained in the acct network
+packet from radiusd to the module. The value of the authreq->request is
+passed to the module in the appdata_ptr pointer of the conversation
+structure. Thus, a module willing to do session logging for this version 
+of radiusd will have to start from the provided source for the dummy
+pam_radius_session module. Check that out, the source is self explanatory.
+
+Of course, radiusd will call pam_open_session each time an acct START
+packets come in, and will call pam_close_session each time the STOP packet
+is seen.
+
+Having this model you should be able to write your module for logging into a
+SQL database or whatever you want, and list that module in the session
+section of the PAM configuration file of the "radius" application (this
+radiusd will call only the session modules for the "radius" application,
+don't get foold by PAM-Auth extension described above):
+
+---- /etc/pam.d/radius  ----
+session		required	/some/path/pam_radius_session.so
+----			----
+
+----------------------------------------------------------------------------
+Please send your comments to gafton@sorosis.ro
+

@@ -1,0 +1,45 @@
+#<--- This is a comment line
+#
+# denyuser
+#
+# This file can be used to deny access to users/groups which match
+# one or more of the following criteria:
+#
+# USER: username match
+# SHELL: user default shall match
+# GECOS: user gecos-field contains a certain string
+# GROUP: user belongs to a matching group.
+#
+# A special meaning value is ANY, used as a value for any of the 
+# previous hints. All users/groups match it.
+#
+# If a user is not allowed in 'allowuser' file and is not matched here,
+# access is granted anyway. Criteria can appear repeated as many
+# times as you want.
+#
+# E.g.
+#
+# The following rules deny access to user 'geppo', to all users who
+# belong to groups 'noacces','bin' or 'adm', to users with shell
+# /bin/false and any users with descriptions containing the word
+# "Francesco" or the string "Acme Ltd."
+#
+USER: geppo
+GROUP: noaccess
+GROUP: bin
+GROUP: adm
+GECOS: Francesco
+GECOS: Acme Ltd.
+SHELL: /bin/false
+#
+#
+# Anyone of the following criteria deny all user
+#
+USER: ANY
+SHELL: ANY
+GECOS: ANY
+GROUP: ANY
+#
+# An empty or missing denyuser file grants access to anyone.
+#
+

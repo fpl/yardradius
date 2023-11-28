@@ -1,0 +1,41 @@
+.\" Copyright (c) 2004 Francesco Paolo Lovergine <frankie@debian.org>
+.\" See copyright section for conditions of redistribution
+.TH RADIUSD_PAM 7 "Sep 1, 2004" "1.0.20" "Yard Radius Manual" 
+.SH NAME
+radiusd_pam \- information about PAM and radiusd
+.SH DESCRIPTION
+.B radiusd 
+is able to use PAM (Pluggable Authentication Modules) for authentication
+and logging. PAM support is available under Linux, FreeBSD,
+HP-UX, Solaris and possibly other flavors of Unix.
+
+You need to enable PAM support at configuration time for compiling in the
+needed additional code, and also to activate it at run-time with the
+.BR "-P " and " -A " "options for " radiusd .
+The two above options enable separately authorization and accounting via PAM.
+
+You should use the special
+.BR "Auth-Type=PAM" " attribute in your" 
+.IR users " file" 
+in order to enable PAM authorization. As default 
+.B radiusd
+will look for a 
+.SH "SEE ALSO"
+.BR radiusd (8),
+.BR radiusd_attributes (5),
+.BR pam (8)
+.SH AUTHOR
+Original PAM support for RADIUS is due to 
+Jeff Blaize <jblaize@kiva.net>. Minor modification are due to C. Gafton
+and Francesco Paolo Lovergine <francesco@yardradius.org>.
+.P
+A complete list of contributors is contained in CREDITS file. 
+You should get that file among other ones within your distribution 
+and possibly installed under
+.BR "PREFIX/docs " directory
+.SH COPYRIGHT
+Copyright (C) 1999-2004 Francesco Paolo Lovergine. All rights reserved.
+.P
+See the LICENSE file enclosed within this software for conditions of 
+use and distribution. This is a pure 
+.B "ISO BSD Open Source License" .

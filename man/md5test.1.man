@@ -1,0 +1,34 @@
+.\" Copyright (c) 2004 Francesco Paolo Lovergine <frankie@debian.org>
+.\" See copyright section for conditions of rednistribution
+.\" $Id: md5test.1.man 83 2004-08-28 13:32:47Z flovergine $
+.\"
+.TH MD5TEST 1 "Aug 28, 2004" "1.1" "Yard Radius Manual"
+.SH NAME
+md5test \- MD5 test program for RADIUS
+.SH SYNOPSIS
+.BI md5test " shared"
+.SH DESCRIPTION
+.B md5test
+is a poorly written program for testing purpose.
+It takes the shared secret as an argument,
+reads a hex dump on standard input, and outputs
+the length, shared secret, standard input, followed
+by the MD5 checksum of that input followed by the
+shared secret.
+.SH "SEE ALSO"
+.BR radiusd (8),
+.BR md5sum (1)
+.SH BUGS
+No decent argument and input checking is done. Use it with caution, due 
+to easy segmentation faulting.
+.SH AUTHOR
+Lucent Technologies Remote Access.
+.SH COPYRIGHT
+Copyright (C) 1992-1999 Lucent Inc. All rights reserved.
+.P
+Copyright (C) 1999-2004 Francesco Paolo Lovergine. All rights reserved.
+.P
+See the LICENSE file enclosed within this software for conditions of 
+use and distribution. This is a pure 
+.B "ISO BSD Open Source License" .
+

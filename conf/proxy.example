@@ -1,0 +1,25 @@
+#---------------------------------------------------------------------------
+#
+# @(#)proxy	1.2 3/1/98  Copyright 1997 Livingston Enterprises Inc
+#
+#---------------------------------------------------------------------------
+#
+#	This file contains a list of remote servers to forward to
+#	The first field is a valid hostname or IP address
+#	The second field (seperated by blanks or tabs) is the shared secret
+#	The third field is the named or numeric authentication realm
+#	The fourth field can contain the optional RADIUS UDP Port number of
+#	the remote server, the RADIUS and RADIUS Accounting Port numbers,
+#	and any of following optional keywords:
+#
+#	old	Strip realm and do not attach Proxy-State when forwarding
+#	secure	Allow remote server to authorize admin logins for your client
+#	ipass	Use the ipass protocol
+#
+#server name	key		realm		ports and keywords
+#------------	---------------	-----------	---------------
+#rad.edu.com	chsebetterth	edu.com
+#rad7.com.net	lx4zDFapa3ep	com.net		1645 1646 old
+#radius.edu.net	eajsdfljasep	5551234		1812 1813 secure
+#eg.edu.net	e997asepdflj	edu.net		old secure
+#ipass.com	bigbigsecret	DEFAULT		ipass

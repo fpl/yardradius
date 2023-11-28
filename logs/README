@@ -1,0 +1,18 @@
+$Id: README 31 2001-01-14 14:31:25Z kiavik $
+
+All logging file are here.
+Ensure this directory exists when run YARD or you can experience
+strange behavior.
+
+The logging files contain the original text-mode files of Livingston 
+daemon as well as other binary form used in conjunction with
+radlist and radlast.
+
+A sample structure is:
+
+year/				logging files for year 'year'
+	radlast-XX		radlast logging files per month XX=01..12
+	user-stats		radlist yearly logging file
+
+client-nas/year			detail files (it's a text files) of the nas 'client-nas' for year 'year' 
+	detail-XX		this is the original livingston 'detail' file for month XX=01..12 

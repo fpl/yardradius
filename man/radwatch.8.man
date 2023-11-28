@@ -1,0 +1,140 @@
+'\" t
+.\" Copyright (c) 2004 Francesco Paolo Lovergine <frankie@debian.org>
+.\" See copyright section for conditions of redistribution
+.\" $Id: radwatch.8.man 83 2004-08-28 13:32:47Z flovergine $
+.\"
+.TH RADWATCH 8 "Aug 28, 2004" "1.1" "Yard Radius Manual"
+.SH NAME
+radwatch \- A watchdog for RADIUS users 
+.SH SYNOPSIS
+.BR radwatch " [ "
+.BR "\-mhx " "] ["
+.B "\-a "
+.IR acct_dir " ] ["
+.B "\-d "
+.IR db_dir " ]" 
+.SH DESCRIPTION
+.B radwatch
+reads its configuration file 
+.I PREFIX/conf/radwatch.conf
+and uses the radlast and user-stats information to verify that users
+listed in configuration file are not exceeding their time quota limit.
+.P
+For each user logged into user-stats database radwatch will try to match a
+restriction line from its configuration file and will compute the user's
+online time for the time interval coresponding to the restriction. If the
+online time is bigger than the restriction, the user name is printed to the
+standard output AND it is added to the list of the 'stopped' users
+contained in
+.IR PREFIX/conf/stopuser .
+.SH OPTIONS
+.TP
+.BR "\-a " acct_dir
+Sets the accounting directory instead of the builtin default.
+The default is choosen at configuration time and it is 
+generally
+.I PREFIX/logs
+.TP
+.BR "\-d " db_dir
+Sets the database directory instead of the builtin default one.
+The default is choosen at configuration time and it is 
+generally 
+.I PREFIX/logs.
+.TP
+.B \-h
+Prints out usage of the command.
+.TP
+.B \-m
+Use monthly/yearly hierarchy structure for radlast logging files. 
+You should always use this argument with YARD RADIUS.
+
+.SH FILES
+.B radiusd
+requires a group of configuration files under 
+.I PREFIX/conf 
+in order to properly work. 
+Examples of those
+working files are provided with sources and should be present 
+under the same directory, with extension 
+.IR .example .
+All files are well commented and it should be easy to customize them.
+The work files are the following ones:
+.TP
+.I PREFIX/conf/users
+This file contains the human readable information for users' accounting
+and authorization. See 
+.BR radius_attributes (5)
+for details about its syntax.
+.TP
+.I PREFIX/conf/users.db
+The same of the previous one as compiled in by
+.B builddbm
+in GDBM format. It needs to be compiled again every time you make
+changes to the previous one and without restarting 
+.B radiusd .
+
+.TP
+.I PREFIX/conf/stopuser
+This text file is created by 
+.B radwatch 
+to deny access to users,
+when certain conditions are reached (as selected in the radwatch
+configuration file). The authentication daemon 
+.B radiusd
+consults 
+that file along with `denyuser' in order to grant access or not.
+It has an entry per line, which should be a valid system or `users'
+username.
+.TP
+.I PREFIX/conf/radwatch.conf
+This is the configuration file for 
+.BR radwatch .
+It is a text files each line of which is of the form:
+.I "user_list:restriction:time_list"
+where `user_list' is a comma-separated list of usernames for which
+this line apply. You can use @group syntax to denote the standard 
+UNIX user groups. The field `restriction' is the value in seconds of the
+maximum permitted online time within the `time_list'. This one is the
+third colon separated field
+and is a list of days of the week and times during which this
+restriction apply to this user. The valid days are 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', and 'Sa'. 
+In addition, the value 'Al'
+represents all 7 days, and 'Wk' represents the 5 weekdays.
+Times are given as HHMM-HHMM.  The ending time may be before
+the starting time.  Days are presumed to wrap at 0000.
+
+.SH "SEE ALSO"
+.BR radiusd (8)
+.SH AUTHORS
+Cristian Gafton <gafton@sorosis.ro>.
+.P
+Francesco Paolo Lovergine <francesco@yardradius.org>.
+.P
+A complete list of contributors is contained in CREDITS file. 
+You should get that file among other ones within your distribution 
+and possibly installed under
+.BR "PREFIX/docs " directory
+.SH COPYRIGHT
+Copyright (C) 1997 Cristian Gafton. All rights reserved.
+Copyright (C) 1999-2004 Francesco Paolo Lovergine. All rights reserved.
+.P
+See the LICENSE file enclosed within this software for conditions of 
+use and distribution. This is a pure 
+.B "ISO BSD Open Source License" .
+
+.SH BUGS
+The parser for the configuration file is quite fragile, please DO NOT use
+spaces in the configuration lines. The maximum length of a configuration
+line in /etc/raddb/radwatch.conf is set at 1024 byts, if you need more group
+your users in UNIX groups and abuse @group syntax.
+
+.SH NOTES
+In order to use this program you need also a script or a program to
+stop user sessions on your access server(s). There is not a unique
+product to do this. Sometimes you can use a SNMP oid to do this; often
+the only way is opening a telnet admin session to issue a suitable 
+clear/reset line command. 
+It depends on the specific access server and it is not easy
+to support this kind of feature. You are definitively on your own
+with this.
+
