@@ -66,7 +66,10 @@ static char rcsid[] =
  */
 
 #include <stdio.h>
+#include <string.h>
 #include <sys/types.h>
+
+extern void md5_calc( unsigned char *output, unsigned char *input, unsigned int inlen );
 
 int
 main( int argc, char **argv )

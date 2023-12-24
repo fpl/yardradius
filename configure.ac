@@ -64,7 +64,7 @@ AH_TEMPLATE([OLD_PAM],[define if pam_strerror() has just one arg])
 AH_TEMPLATE([PAM],[define if you want to activate PAM support and your system support PAM])
 AH_TEMPLATE([ASCEND_BINARY],[define if you want to activate Ascend Binary Data Filters])
 
-AM_CONFIG_HEADERS(config.h)
+AC_CONFIG_HEADERS(config.h)
 
 dnl
 dnl Checks for make program.
@@ -137,19 +137,7 @@ AC_TYPE_MODE_T
 AC_TYPE_OFF_T
 AC_TYPE_PID_T
 AC_TYPE_SIZE_T
-m4_warn([obsolete],
-[Update your code to rely only on HAVE_SYS_TIME_H,
-then remove this warning and the obsolete code below it.
-All current systems provide time.h; it need not be checked for.
-Not all systems provide sys/time.h, but those that do, all allow
-you to include it and time.h simultaneously.])dnl
 AC_CHECK_HEADERS_ONCE([sys/time.h])
-# Obsolete code to be removed.
-if test $ac_cv_header_sys_time_h = yes; then
-  AC_DEFINE([TIME_WITH_SYS_TIME],[1],[Define to 1 if you can safely include both <sys/time.h>
-	     and <time.h>.  This macro is obsolete.])
-fi
-# End of obsolete code.
 
 AC_STRUCT_TM
 AC_STRUCT_TIMEZONE
@@ -158,18 +146,7 @@ dnl
 dnl Checks for common library functions.
 dnl
 AC_FUNC_MEMCMP
-m4_warn([obsolete],
-[your code may safely assume C89 semantics that RETSIGTYPE is void.
-Remove this warning and the `AC_CACHE_CHECK' when you adjust the code.])dnl
-AC_CACHE_CHECK([return type of signal handlers],[ac_cv_type_signal],[AC_COMPILE_IFELSE(
-[AC_LANG_PROGRAM([#include <sys/types.h>
-#include <signal.h>
-],
-		 [return *(signal (0, 0)) (0) == 1;])],
-		   [ac_cv_type_signal=int],
-		   [ac_cv_type_signal=void])])
-AC_DEFINE_UNQUOTED([RETSIGTYPE],[$ac_cv_type_signal],[Define as the return type of signal handlers
-		    (`int' or `void').])
+AC_DEFINE_UNQUOTED([RETSIGTYPE],[$ac_cv_type_signal],[Define as the return type of signal handlers (`int' or `void').])
 
 AC_FUNC_STRFTIME
 AC_FUNC_VPRINTF

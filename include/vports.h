@@ -2,14 +2,12 @@
 #define __VPORTS_H
 
 /*
- * Copyright (C) 1999-2002 Francesco P. Lovergine. All rights reserved.
+ * Copyright (C) 1999-2023 Francesco P. Lovergine. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms stated in the LICENSE file which should be
  * enclosed with sources.
  */
-
-/* $Id: vports.h 84 2004-08-28 13:32:47Z  $ */
 
 #ifdef VPORTS
 
@@ -57,31 +55,28 @@ typedef struct vp_called
 	struct vp_called *prev;
 } VP_CALLED;
 
-int vports_init();
-VP_CALLED *begin_cidlist();
-VP_CALLED  *new_cidlist();
-VP_CALLED *get_cidlist(u_char *num);
-void create_cidlist(u_char *num, int max);
-int vports_in_use(VP_CALLED *cidcur);
-int vports_in_cache(VP_CALLED *cidcur);
-VP_CALLCACHE *begin_cclist(VP_CALLED *cidcur);
-void free_single_cclist(VP_CALLED *cidcur, VP_CALLCACHE *cc_cur);
-VP_CALLCACHE *new_cclist(VP_CALLED *cidcur);
-VP_NAS *begin_nasiplist(VP_CALLED *cidcur);
-void free_single_nasiplist(VP_CALLED *cidcur, VP_NAS *nasip_cur);
-VP_NAS *get_nasiplist(VP_CALLED *cidcur, UINT4 addr);
-VP_NAS *new_nasiplist(VP_CALLED *cidcur, UINT4 addr);
-VP_ACCTID *begin_acctidlist(VP_NAS *nasip_cur);
-void free_single_acctidlist(VP_NAS *nasip_cur, VP_ACCTID *acctid_cur);
-VP_ACCTID *get_acctidlist(VP_NAS *nasip_cur, u_char *acctid);
-VP_ACCTID *new_acctidlist(VP_NAS *nasip_cur, u_char *acctid);
-int vp_check_req(AUTH_REQ *authreq);
-void vp_update_cid(AUTH_REQ *authreq);
-
-VP_CALLED	*cidfirst;
-VP_CALLED	*cidlast;
-u_char		vp_cidinit;
-
+#ifndef _VPORTS_MODULE_C
+extern int vports_init();
+extern VP_CALLED *begin_cidlist();
+extern VP_CALLED  *new_cidlist();
+extern VP_CALLED *get_cidlist(u_char *num);
+extern void create_cidlist(u_char *num, int max);
+extern int vports_in_use(VP_CALLED *cidcur);
+extern int vports_in_cache(VP_CALLED *cidcur);
+extern VP_CALLCACHE *begin_cclist(VP_CALLED *cidcur);
+extern void free_single_cclist(VP_CALLED *cidcur, VP_CALLCACHE *cc_cur);
+extern VP_CALLCACHE *new_cclist(VP_CALLED *cidcur);
+extern VP_NAS *begin_nasiplist(VP_CALLED *cidcur);
+extern void free_single_nasiplist(VP_CALLED *cidcur, VP_NAS *nasip_cur);
+extern VP_NAS *get_nasiplist(VP_CALLED *cidcur, UINT4 addr);
+extern VP_NAS *new_nasiplist(VP_CALLED *cidcur, UINT4 addr);
+extern VP_ACCTID *begin_acctidlist(VP_NAS *nasip_cur);
+extern void free_single_acctidlist(VP_NAS *nasip_cur, VP_ACCTID *acctid_cur);
+extern VP_ACCTID *get_acctidlist(VP_NAS *nasip_cur, u_char *acctid);
+extern VP_ACCTID *new_acctidlist(VP_NAS *nasip_cur, u_char *acctid);
+extern int vp_check_req(AUTH_REQ *authreq);
+extern void vp_update_cid(AUTH_REQ *authreq);
+#endif 
 
 #endif /* VPORTS */
 

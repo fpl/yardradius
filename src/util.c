@@ -291,7 +291,7 @@ bufalloc(int size,char*where)
 		hmembuf = nmembuf;
 	}
 	if (debug_mem) {
-		log_err("called bufalloc(%d,%s) = %x %d\n",size,where,(int)buf,nmembuf);
+		log_err("called bufalloc(%d,%s) = %p %d\n",size,where,(void*)buf,nmembuf);
 	}
 
 	return buf;
@@ -311,7 +311,7 @@ void
 buffree(char*buf,char*where)
 {
 	if (debug_mem) {
-		log_err("called buffree(%x,%s) = %d\n",(int)buf,where,nmembuf);
+		log_err("called buffree(%p,%s) = %d\n",(void*)buf,where,nmembuf);
 	}
         if (buf == (char *)NULL) {
 		log_err("%s called buffree with NULL pointer\n",where);
@@ -469,7 +469,7 @@ reqalloc(char *where)
 		hmemreq = nmemreq;
 	}
 	if (debug_mem) {
-		log_err("called reqalloc(%s) = %x %d\n",where,(int)authreq,nmemreq);
+		log_err("called reqalloc(%s) = %p %d\n",where,(void*)authreq,nmemreq);
 	}
 
 	return authreq;
@@ -490,7 +490,7 @@ void
 reqfree( AUTH_REQ*authreq,char*where)
 {
 	if (debug_mem) {
-		log_err("called reqfree(%x,%s) = %d\n",(int)authreq,where,nmemreq);
+		log_err("called reqfree(%p,%s) = %d\n",(void*)authreq,where,nmemreq);
 	}
         if (authreq == (AUTH_REQ *)NULL) {
 		log_err("%s called reqfree with NULL pointer\n",where);
@@ -638,7 +638,7 @@ hexdump(u_char*buf,int n)
 	s[48] = '\0';
 	for (i = 0; i < n; i++) {	
 		j = i & 0x0f;
-		sprintf(&s[3*j],"%02x ",(int)buf[i]);
+		snprintf(&s[3*j], sizeof(s), "%02x ", (int)buf[i]);
 		if (j == 15) {
 			log_debug("%s\n",s);
 		}

@@ -13,7 +13,9 @@ static char rcsid[] = "$Id: builddbm.c 80 2004-08-19 16:19:18Z flovergine $";
 
 #include	<sys/types.h>
 #include	<sys/socket.h>
+#ifdef HAVE_SYS_TIME_H
 #include	<sys/time.h>
+#endif
 #include	<sys/file.h>
 #include	<netinet/in.h>
 

@@ -11,7 +11,9 @@ static char rcsid[] = "$Id: menu.c 75 2004-08-02 18:40:07Z flovergine $";
 
 #include	<sys/types.h>
 #include	<sys/socket.h>
+#ifdef HAVE_SYS_TIME_H
 #include	<sys/time.h>
+#endif
 #include	<sys/file.h>
 #include	<netinet/in.h>
 

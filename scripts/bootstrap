@@ -1,15 +1,17 @@
 #!/bin/sh
 #
-# $Id: bootstrap 100 2007-06-28 14:49:29Z flovergine $
-#
-# Copyright (C) 2004,2007 Francesco P. Lovergine <frankie@yardradius.org>
-# All rights reserved. See LICENSE file for license information.
+# Copyright (C) 2004-2023 Francesco P. Lovergine <frankie@debian.org>
 #
 # This script is useful on Debian GNU/Linux as an alternative to autoreconf.
 # Adaptable to other platforms mutata mutanda.
 #
 
-autoheader \
-&& aclocal \
-&& autoconf \
-&& automake --add-missing --force --copy 
+if [ $(command -v autoreconf|wc -l) -eq 1 ]
+then
+    autoreconf --verbose --force --install
+else
+    autoheader \
+    && aclocal \
+    && autoconf \
+    && automake --add-missing --force --copy 
+fi

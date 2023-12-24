@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 1999-2002 Francesco P. Lovergine. 
+ * Copyright (C) 1999-2023 Francesco P. Lovergine. 
  * All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
@@ -7,12 +7,16 @@
  * enclosed with sources.
  */
 
-static char rcsid[] = "$Id: vports.c 81 2004-08-27 21:45:17Z flovergine $";
+#define _VPORTS_MODULE_C
 
 #include "yard.h"
 #include "global.h"
 
 #ifdef VPORTS
+
+VP_CALLED	*cidfirst;
+VP_CALLED	*cidlast;
+u_char		vp_cidinit;
 
 int 
 vports_init(void)

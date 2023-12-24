@@ -11,6 +11,8 @@ static char rcsid[] = "$Id: radlist.c 102 2007-06-28 14:53:34Z flovergine $";
     
 #define __MAIN__
 
+#include <time.h>
+
 #include "yard.h"
 #include "global.h"
 
