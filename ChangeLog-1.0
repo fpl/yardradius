@@ -2,177 +2,177 @@ This is the changelog for the 1.0 stable release.
 
 (1.0.21) 2004-07-01 Francesco P. Lovergine <francesco@lovergine.com>
 
-	The 'middle-land' release.
+    The 'middle-land' release.
 
-	  [Minor]
-	 
-	* Editorial changes in copyright notices of all source files.
-	  Also some typos are now corrected.
-	* New email and domain used extensively in every file.
-	* Updated README to reflect new site URL and other info.
-	* Refinement in size definitions of some data structures.
+      [Minor]
+     
+    * Editorial changes in copyright notices of all source files.
+      Also some typos are now corrected.
+    * New email and domain used extensively in every file.
+    * Updated README to reflect new site URL and other info.
+    * Refinement in size definitions of some data structures.
 
-	  [Enhancement]
-	  
-	* Changed --version in -dumpversion for gcc versioning 
+      [Enhancement]
+      
+    * Changed --version in -dumpversion for gcc versioning 
           in configure.in. This broke things in gcc 3. New arg is
           back compatible also.
-	* Added entries limit to radlast. Thanks Russell Heilling 
-	  for patch (see feature request 464791). Changed man page
-	  as consequence.
-	* Updated config.guess and config.sub, old releases could
-	  break thing on current systems.
+    * Added entries limit to radlast. Thanks Russell Heilling 
+      for patch (see feature request 464791). Changed man page
+      as consequence.
+    * Updated config.guess and config.sub, old releases could
+      break thing on current systems.
 
-	  [Security]
+      [Security]
 
-	* A buffer overflow in calc_acctreq() has been patched.
-	* process_menu() has been modified to check string limits.
-	  Thanks Max Vozeler for pointing this so old issue and
-	  showed a possible exploit.
+    * A buffer overflow in calc_acctreq() has been patched.
+    * process_menu() has been modified to check string limits.
+      Thanks Max Vozeler for pointing this so old issue and
+      showed a possible exploit.
 
 
 (1.0.20) 2002-03-02 Francesco P. Lovergine <francesco@yardradiug.org>
-	* Documentation has been revised and updated. Many typos are
-	  now corrected as well as some documentation incoherences.
-	  New RFCs about the RADIUS protocol suite are enclosed and
-	  obsolete ones removed.
-	* Some files changed names for coherence.
-	* getopt() returns int, not char.
-	* SIGABRT is the standard definition in POSIX.1 which obsoletes
-	  SIGIOT. In some environment the old signal is no more defined.
-	* Now changeprefix script works good on Free BSD. The non
-	  portable '-' argument has been skipped for sed. This caused
-	  problem with configure script under that platform.
-	* Dictionary updated with other VSAs (Ericsson and Xedia).
-	* config.sub, config.guess and other automake scripts are now 
-	  updated to the latest releases.
-	* Major code revisions to avoid vulnerabilities due to strcpy()
-          memcpy() and other dangerous functions. 
-           - Digest Calculation Buffer Overflow Vulnerability.
-           - Invalid attribute length calculation on malformed VSA.
-          Non full-disclosures are available at CERT.org
-	* Added my GPG key to code.
+    * Documentation has been revised and updated. Many typos are
+      now corrected as well as some documentation incoherences.
+      New RFCs about the RADIUS protocol suite are enclosed and
+      obsolete ones removed.
+    * Some files changed names for coherence.
+    * getopt() returns int, not char.
+    * SIGABRT is the standard definition in POSIX.1 which obsoletes
+      SIGIOT. In some environment the old signal is no more defined.
+    * Now changeprefix script works good on Free BSD. The non
+      portable '-' argument has been skipped for sed. This caused
+      problem with configure script under that platform.
+    * Dictionary updated with other VSAs (Ericsson and Xedia).
+    * config.sub, config.guess and other automake scripts are now 
+      updated to the latest releases.
+    * Major code revisions to avoid vulnerabilities due to strcpy()
+      memcpy() and other dangerous functions. 
+      - Digest Calculation Buffer Overflow Vulnerability.
+      - Invalid attribute length calculation on malformed VSA.
+      Non full-disclosures are available at CERT.org
+    * Added my GPG key to code.
 
-	  Some of those changes are stolen from a VA Linux patch for
-	  Lucent Radius 2.1.
+      Some of those changes are stolen from a VA Linux patch for
+      Lucent Radius 2.1.
 
 (1.0.19) 2001-08-27 Francesco P. Lovergine <francesco@lovergine.com>
-	* Added a first version of man files under `man' directory.
-	  Some old draft documentation files have been removed,
-	  as consequence.
-	* Default prefix is changed in `/usr/local/yardradius'
-	* A couple of commas in configure.in which caused a ',6' 
-	  file when --enable-debian was used has been deleted. 
-	  A minor, but truly amazing bug :)
-	* Many typos and grammar errors in doc corrected (or hoping so).
-	* Configure.in did not install logs and doc directory when
-	  prefix is not set on command line. Now also this is ok.
+    * Added a first version of man files under `man' directory.
+      Some old draft documentation files have been removed,
+      as consequence.
+    * Default prefix is changed in `/usr/local/yardradius'
+    * A couple of commas in configure.in which caused a ',6' 
+      file when --enable-debian was used has been deleted. 
+      A minor, but truly amazing bug :)
+    * Many typos and grammar errors in doc corrected (or hoping so).
+    * Configure.in did not install logs and doc directory when
+      prefix is not set on command line. Now also this is ok.
 
 (1.0.18) 2001-08-21 Francesco P. Lovergine <francesco@lovergine.com>
-	* Patched for a subdle bug due to __debug definition in extens.c.
-	* Skipped auth_item check when Auth-Type=PAM.
-	* Skipping void reply items in parsing GDBM users files.
+    * Patched for a subdle bug due to __debug definition in extens.c.
+    * Skipped auth_item check when Auth-Type=PAM.
+    * Skipping void reply items in parsing GDBM users files.
 
-	  All patches are due to William K. Volkman.
+      All patches are due to William K. Volkman.
 
 (1.0.17) 2001-08-18 Francesco P. Lovergine <francesco@lovergine.com> 
-	* Configuration file modified to add a --enable-debian option.
-	  It greatly simplifies support of Debian packaging. Debian
-	  package is released as a separate package in Debian 'unstable'
-	  distribution.
-	* Now builddbm and radiusd are installend under sbin which
-	  seems a more correct destination for those files.
+    * Configuration file modified to add a --enable-debian option.
+      It greatly simplifies support of Debian packaging. Debian
+      package is released as a separate package in Debian 'unstable'
+      distribution.
+    * Now builddbm and radiusd are installend under sbin which
+      seems a more correct destination for those files.
 
 (1.0.16/pre16) 2001-01-14 Francesco P. Lovergine <francesco@lovergine.com> 
-	* Dictionary entries for BayNetworks/Nortel Annex is added.
-	* Now, YARD RADIUS is compatible with GDBM 1.7.3, which seems the 
-	  most commonly installed version. Just changed the gdbm_open()
-	  function arguments for this.
-	* Since now, the official name of the package is
-	  Yard Radius. This to avoid confusion with other packages
-	  with the same name, and to be coherent with a next-to-come 
-	  Debian package (yeah!).
-	  I changed also version numbering. The current version is 
-	  1.0.16, i.e. 1.0 patch level 16. It seems more `standard',
-	  and to be honest I really think this program is too much
-	  robust to leave it in pre-release status... Am I an optimist?
-	* Changed including of time.h and sys/time.h as suggested in autoconf
-	  manuals. This allows installation under AIX and other systems
-	  which could need both files. Incidentally, under AIX it compiles
-	  also with the off-the-shelf C compiler.
-	* PAM configuring in configure.in is changed to avoid a 
-	  subdle configuration bug: some linux distributions do not
-	  install PAM development libraries, so that PAM support cannot
-	  be enabled on them, while building. This includes Debian 2.2
-	  and RedHat.  That's not a problem on Solaris or FreeBSD 
-	  which install them as default. This require a modification
-	  of configure.in which is now smarter. 
-	* An silly ortographic error in configure.in with --enable-pam
-	  has been corrected.
-	* Builddbm now works under the conf directory, not the current one.
-	* License and Readme files have been changed. There is no more
-	  an ANNOUNCE file and COPYING (which is the standard name for
-	  GPL) is now named LICENSE (which is the standard name for BSD).
-	* A CONFIGURATION text file has been added to summarize main
-	  configuration issues. Are you happy?
-	* Many other (little) adjustments.
-	
+    * Dictionary entries for BayNetworks/Nortel Annex is added.
+    * Now, YARD RADIUS is compatible with GDBM 1.7.3, which seems the 
+      most commonly installed version. Just changed the gdbm_open()
+      function arguments for this.
+    * Since now, the official name of the package is
+      Yard Radius. This to avoid confusion with other packages
+      with the same name, and to be coherent with a next-to-come 
+      Debian package (yeah!).
+      I changed also version numbering. The current version is 
+      1.0.16, i.e. 1.0 patch level 16. It seems more `standard',
+      and to be honest I really think this program is too much
+      robust to leave it in pre-release status... Am I an optimist?
+    * Changed including of time.h and sys/time.h as suggested in autoconf
+      manuals. This allows installation under AIX and other systems
+      which could need both files. Incidentally, under AIX it compiles
+      also with the off-the-shelf C compiler.
+    * PAM configuring in configure.in is changed to avoid a 
+      subdle configuration bug: some linux distributions do not
+      install PAM development libraries, so that PAM support cannot
+      be enabled on them, while building. This includes Debian 2.2
+      and RedHat.  That's not a problem on Solaris or FreeBSD 
+      which install them as default. This require a modification
+      of configure.in which is now smarter. 
+    * An silly ortographic error in configure.in with --enable-pam
+      has been corrected.
+    * Builddbm now works under the conf directory, not the current one.
+    * License and Readme files have been changed. There is no more
+      an ANNOUNCE file and COPYING (which is the standard name for
+      GPL) is now named LICENSE (which is the standard name for BSD).
+    * A CONFIGURATION text file has been added to summarize main
+      configuration issues. Are you happy?
+    * Many other (little) adjustments.
+    
 (pre15) 2000-09-26 Francesco P. Lovergine <francesco@lovergine.com>
-	* Installer now create also logs directory and explains
-	  the structure.
-	* Deleted Log entries from sources to avoid redundant comments
-	  with CVS.
+    * Installer now create also logs directory and explains
+      the structure.
+    * Deleted Log entries from sources to avoid redundant comments
+      with CVS.
 
 (pre14) 2000-09-21 Francesco P. Lovergine <francesco@lovergine.com>
-	* Corrected autoconf/automake 
-	  configuration to solve some problems of installation
-	  under a few architectures. Configure now use Gnu Shell Tool
-	  instead of the default BSD-like installation. Moreover,
-	  several new tests have been added/modified for PAM and 
-	  linker.
-	* Changed some configuration args.
-	* snprintf() is now used extensively to be maniacally sure
-	  that no buffer overflow is possible.
-	* Also sources now compile on Linux 2.2, FreeBSD 4.0 
-	  Solaris 2.5.1+ and DEC Unix 4.0+ (formerly Compaq Tru64 Unix)
-	  as I personally tested.
-	* Sources are cleaner, now you should not have any 
-	  warning with cc under Compaq Tru64 (formerly DEC Unix).
-	* Dictionary has been revised and updated. Now it includes
-	  Redback and SpringTide entries.
+    * Corrected autoconf/automake 
+      configuration to solve some problems of installation
+      under a few architectures. Configure now use Gnu Shell Tool
+      instead of the default BSD-like installation. Moreover,
+      several new tests have been added/modified for PAM and 
+      linker.
+    * Changed some configuration args.
+    * snprintf() is now used extensively to be maniacally sure
+      that no buffer overflow is possible.
+    * Also sources now compile on Linux 2.2, FreeBSD 4.0 
+      Solaris 2.5.1+ and DEC Unix 4.0+ (formerly Compaq Tru64 Unix)
+      as I personally tested.
+    * Sources are cleaner, now you should not have any 
+      warning with cc under Compaq Tru64 (formerly DEC Unix).
+    * Dictionary has been revised and updated. Now it includes
+      Redback and SpringTide entries.
 
 (pre13) 1999-09-28 Francesco P. Lovergine <francesco@lovergine.com>
-	
-	* Default mode now does not spawn as before, so -s argument has
-	  the opposite meaning. This is because it's more correct to
-	  manage GDBM files.
-	* More modification to radlist program. Its format strings now
-	  include alignement values.
+    
+    * Default mode now does not spawn as before, so -s argument has
+      the opposite meaning. This is because it's more correct to
+      manage GDBM files.
+    * More modification to radlist program. Its format strings now
+      include alignement values.
 
 (pre11) 1999-09-24 Francesco P. Lovergine <francesco@lovergine.com>
-	* Modified radlist for extended flexible output and 
-	  corrected minor bugs. Needs yet an eye for extended port
-	  information.
-	* gdbm_open() call corrected in builddbm (wrong number of args)
-	* changed size argument of gdbm_open() calls everywhere
-	* some little modification in #defines and other.
+    * Modified radlist for extended flexible output and 
+      corrected minor bugs. Needs yet an eye for extended port
+      information.
+    * gdbm_open() call corrected in builddbm (wrong number of args)
+    * changed size argument of gdbm_open() calls everywhere
+    * some little modification in #defines and other.
 
 (pre10) 1999-09-22 Francesco P. Lovergine <francesco@lovergine.com>
-	* Modified radlast for extended flexible output and
-	  corrected minor bugs. Radlist needs yet an eye...
-	* Revised some minor details in other files.
-	* Modified acct.c to manage correctly Ascend NUL terminated strings
+    * Modified radlast for extended flexible output and
+      corrected minor bugs. Radlist needs yet an eye...
+    * Revised some minor details in other files.
+    * Modified acct.c to manage correctly Ascend NUL terminated strings
 
 (pre9) 1999-09-21 Francesco P. Lovergine <francesco@lovergine.com>
-	* Minor error in #ifdef among sources corrected
-	* Automake file rewritten for a clean ditribution. 
-	* Autoconfiguring improved for linker flags
-	* Minor bugs in configuration files corrected
-	* Added a portable version of snprintf()/vsnprintf()
-	  and modified configure.in to support them on demand
+    * Minor error in #ifdef among sources corrected
+    * Automake file rewritten for a clean ditribution. 
+    * Autoconfiguring improved for linker flags
+    * Minor bugs in configuration files corrected
+    * Added a portable version of snprintf()/vsnprintf()
+      and modified configure.in to support them on demand
 
 1999-09-20 Francesco P. Lovergine <francesco@lovergine.com>
-	* Integrates autoconf & automake
-	* Changed a bit formats of radlast/radlist
-	* Now radwatch and radtest compile
+    * Integrates autoconf & automake
+    * Changed a bit formats of radlast/radlist
+    * Now radwatch and radtest compile
 

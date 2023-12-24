@@ -1,7 +1,5 @@
 dnl
-dnl $Id: configure.ac 100 2007-06-28 14:49:29Z flovergine $
-dnl
-dnl Copyright (C) 1999-2004 Francesco P. Lovergine. All rights reserved.
+dnl Copyright (C) 1999-2023 Francesco P. Lovergine. All rights reserved.
 dnl 
 dnl Process this file with autoconf (>=2.59) to produce a configure script.
 dnl Use bootstrap script or autoreconf to prepare the build system.
@@ -15,7 +13,7 @@ dnl Note that maintainer mode is disable by default to avoid trashing
 dnl the autoconf stuff with wrong versions.
 dnl
 
-AC_INIT([Yard Radius],[1.1],[francesco@lovergine.com],[yardradius])
+AC_INIT([Yard Radius],[1.2],[francesco@lovergine.com],[yardradius])
 AC_PREREQ([2.71])
 AC_CONFIG_SRCDIR(src/radiusd.c)
 AC_CONFIG_AUX_DIR(autotools)
@@ -64,7 +62,7 @@ AH_TEMPLATE([OLD_PAM],[define if pam_strerror() has just one arg])
 AH_TEMPLATE([PAM],[define if you want to activate PAM support and your system support PAM])
 AH_TEMPLATE([ASCEND_BINARY],[define if you want to activate Ascend Binary Data Filters])
 
-AC_CONFIG_HEADERS(config.h)
+AC_CONFIG_HEADERS([config.h:config.h.in])
 
 dnl
 dnl Checks for make program.

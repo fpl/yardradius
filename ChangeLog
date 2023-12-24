@@ -1,0 +1,6 @@
+This the general changelog for the 1.2+ development series.
+
+2023-11-28 Francesco P. Lovergine <francesco@lovergine.com>
+
+	* Revamping for modern times, with current autotools.
+	* Fixed a series of warnings with GCC 12.
