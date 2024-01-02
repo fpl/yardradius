@@ -7,8 +7,6 @@
  * enclosed with sources.
  */
 
-static char rcsid[] = "$Id: radiusd.c 83 2004-08-28 13:32:47Z flovergine $";
-
 
 #define __MAIN__
 #include        "yard.h"

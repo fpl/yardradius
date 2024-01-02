@@ -40,8 +40,6 @@ The other flags work as follows:
 
 */
 
-static char rcsid[] = "$Id: radtest.c 83 2004-08-28 13:32:47Z flovergine $ Copyright (C) 1999-2004 Francesco P. Lovergine";
-
 
 #include "yard.h"
 

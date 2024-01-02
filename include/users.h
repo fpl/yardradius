@@ -8,8 +8,6 @@
  * enclosed with sources.
  */
 
-/* $Id: users.h 84 2004-08-28 13:32:47Z  $ */
-
 #include <sys/types.h>
 #if defined(HAVE_FCNTL_H)
 #include <fcntl.h>

@@ -22,8 +22,6 @@
 
 /* FIXME: A bit revised for inclusion in yardradius, needs major revision */
 
-/* $Id: filters.c 81 2004-08-27 21:45:17Z flovergine $ */
-
 #include "yard.h"
 
 #if defined(ASCEND_BINARY)

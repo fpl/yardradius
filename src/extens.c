@@ -7,11 +7,8 @@
  * enclosed with sources.
  */
 
-static char rcsid[] = "$Id: extens.c 83 2004-08-28 13:32:47Z flovergine $";
-
 #include	"yard.h"
 #include	"global.h"
-
 
 /* This structure is used for 3COM boxes */
 

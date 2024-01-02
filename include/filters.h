@@ -9,8 +9,6 @@
  * enclosed with sources.
  */
 
-/* $Id: filters.h 80 2004-08-19 16:19:18Z flovergine $ */
-
 
 /*
  * ASCEND extensions for ABINARY filters

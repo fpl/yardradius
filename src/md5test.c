@@ -49,10 +49,6 @@ of this software, even if advised of the possibility of such damage.
 
 ************************************************************************/
 
-
-static char rcsid[] =
-"$Id: md5test.c 75 2004-08-02 18:40:07Z flovergine $ Copyright 1999 Lucent Technologies Inc";
-
 /*	Usage:	md5test takes the shared secret as an argument,
 		reads a hex dump on standard input, and outputs
 		the length, shared secret, standard input, followed

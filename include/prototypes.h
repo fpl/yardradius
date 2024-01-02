@@ -9,8 +9,6 @@
  * enclosed with sources.
  */
 
-/* $Id: prototypes.h 81 2004-08-27 21:45:17Z flovergine $ */
-
 /* 
  * PROTOTYPES
  *

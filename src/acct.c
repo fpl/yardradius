@@ -7,8 +7,6 @@
  * enclosed with sources.
  */
 
-static char rcsid[] = "$Id: acct.c 81 2004-08-27 21:45:17Z flovergine $";
-
 #include "yard.h"
 #include "global.h"
 

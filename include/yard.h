@@ -9,8 +9,6 @@
  * enclosed with sources.
  */
 
-/* $Id: yard.h 81 2004-08-27 21:45:17Z flovergine $ */
-
 /*
  * The main header file with all needed declarations
  */

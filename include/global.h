@@ -8,8 +8,6 @@
  * enclosed with sources.
  */
 
-/* $Id: global.h 84 2004-08-28 13:32:47Z  $ */
-
 /*
  * Contains global data definitions and declarations
  */

@@ -8,8 +8,6 @@
  * enclosed with sources.
  */
 
-/* $Id: radius.h 81 2004-08-27 21:45:17Z flovergine $ */
-
 #define AUTH_VECTOR_LEN		16
 #define AUTH_PASS_LEN		16
 #define AUTH_MAXPASS_LEN	48

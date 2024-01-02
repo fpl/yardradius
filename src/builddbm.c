@@ -7,8 +7,6 @@
  * enclosed with sources.
  */
 
-static char rcsid[] = "$Id: builddbm.c 80 2004-08-19 16:19:18Z flovergine $";
-
 #include	<config.h>
 
 #include	<sys/types.h>

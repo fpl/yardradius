@@ -56,8 +56,6 @@
 
 #ifdef IPASS
 
-#ident	"@(#)$Name$:$Id: ipass.c 75 2004-08-02 18:40:07Z flovergine $"
-
 #include <ipassconf.h>
 #include <ipassgen.h>
 

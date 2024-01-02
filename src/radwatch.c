@@ -25,8 +25,6 @@
  * distributed with this release.
  */
 
-static char rcsid[] = "$Id: radwatch.c 81 2004-08-27 21:45:17Z flovergine $";
-
 #include "yard.h"
 
 #define REVISION    "$Revision: 81 $"
